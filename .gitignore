@@ -1,3 +1,6 @@
 
 # No agregar cambios de las carpetas __pycache__ generadas autoamticamente.
 __pycache__
+
+# Ignorar todos los archivos tipo log
+*.log

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1035</width>
-    <height>616</height>
+    <height>617</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -44,31 +44,6 @@
           <string>TextLabel</string>
          </property>
         </widget>
-        <widget class="QLabel" name="Imagen">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>20</y>
-           <width>341</width>
-           <height>191</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">border: 5px solid black;</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="pixmap">
-          <pixmap>../../../../Descargas/Telegram Desktop/photo_2021-11-19_03-34-04.jpg</pixmap>
-         </property>
-         <property name="scaledContents">
-          <bool>true</bool>
-         </property>
-         <property name="margin">
-          <number>0</number>
-         </property>
-        </widget>
         <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
@@ -79,41 +54,6 @@
           </rect>
          </property>
          <layout class="QGridLayout" name="gridLayout">
-          <item row="0" column="3">
-           <widget class="QComboBox" name="bt_list">
-            <item>
-             <property name="text">
-              <string>98:D3:31:FC:96:5F - HC-06</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>94:17:00:DD:74:5F - Bawy~</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="3" column="2">
-           <widget class="QPushButton" name="btn_derecha">
-            <property name="text">
-             <string>Derecha</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="3">
-           <widget class="QPushButton" name="on_off_server">
-            <property name="text">
-             <string>Botón Servidor</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0" colspan="3">
-           <widget class="QLabel" name="t_botones">
-            <property name="text">
-             <string>TextLabel</string>
-            </property>
-           </widget>
-          </item>
           <item row="4" column="1">
            <widget class="QPushButton" name="btn_retroceder">
             <property name="text">
@@ -152,6 +92,27 @@
             </property>
            </widget>
           </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="t_botones">
+            <property name="text">
+             <string>TextLabel</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QComboBox" name="bt_list">
+            <item>
+             <property name="text">
+              <string>98:D3:31:FC:96:5F - HC-06</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>94:17:00:DD:74:5F - Bawy~</string>
+             </property>
+            </item>
+           </widget>
+          </item>
           <item row="0" column="0" colspan="3">
            <widget class="QRadioButton" name="on_off_motor">
             <property name="text">
@@ -159,7 +120,75 @@
             </property>
            </widget>
           </item>
+          <item row="3" column="2">
+           <widget class="QPushButton" name="btn_derecha">
+            <property name="text">
+             <string>Derecha</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QPushButton" name="on_off_server">
+            <property name="text">
+             <string>Botón Servidor</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="3">
+           <widget class="QPushButton" name="pushButton">
+            <property name="text">
+             <string>Cerrar sesión</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="3">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Logueado cómo: </string>
+            </property>
+           </widget>
+          </item>
          </layout>
+        </widget>
+        <widget class="QLabel" name="Imagen_2">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>350</width>
+           <height>200</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>350</width>
+           <height>200</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>350</width>
+           <height>200</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border: 5px solid black;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap>../../../../on_linux/poo_libre/imagenes/tank000.png</pixmap>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="margin">
+          <number>0</number>
+         </property>
         </widget>
        </widget>
       </item>

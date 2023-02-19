@@ -7,13 +7,19 @@ class RobotController(QObject):
         super().__init__()
         self.view = MainView()
         self.robot_tank = Robot()
+        self.portBt = self.view.bt_list.currentText()
         
     #   Método para 
-    def conectar_bluetooth(self):
-        info = "Se presionó el boton de conectar/desconectar Serial Bluetooth."
-        print(info)
-        self.view.add_rlog(info)
-        self.robot_tank.conectar_bluetooth()
+    def conectarBluetooth(self):
+        if self.portBt != "":
+            info = "Se presionó el boton de conectar/desconectar Serial Bluetooth."
+            print(info)
+            self.view.add_rlog(info)
+            if self.robot_tank.estado_bt:      
+                self.robot_tank.conectar_bluetooth(self.portBt)      
+            else:
+                self.robot_tank.conectar_bluetooth(self.portBt)
+            
 
     #   Método para 
     def habilitar_motores(self):
@@ -77,14 +83,15 @@ class RobotController(QObject):
                 self.view.add_rlog(info)
         else: pass
 
-    def verificarConexionBluetooth(self):
-        if self.robot_tank.estado_bt == False:
-            info = "Conectar al robot movil vía bluetooth antes."
-        elif self.robot_tank.estado_bt == True:
-            info = "Se verificó conexión exitosa con el robot."
-        print(info)
-        self.view.add_rlog(info)
-        return
+    # def verificarConexionBluetooth(self):
+    #     if self.robot_tank.estado_bt == False:
+    #         info = "Conectar al robot movil vía bluetooth antes."
+    #         # return False
+    #     elif self.robot_tank.estado_bt == True:
+    #         info = "Se verificó conexión exitosa con el robot."
+    #     print(info)
+    #     self.view.add_rlog(info)
+    #     return
     
     def verificarHabilitacionDeMovimiento(self):
         if self.robot_tank.estado_bt:

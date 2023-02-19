@@ -1,6 +1,7 @@
 from .PCB import PCB_mother
 from .motor import Motor
 from .sensor_temperatura import Sensor_temp
+from .bluetooth_model import BlueRobot
 import serial
 
 ## Será el encargado de generar la conexión bluetooth !!
@@ -27,27 +28,25 @@ class Robot:
         self.motor_izquierdo = Motor("Nema17", "Paso a paso", "Detenido", False)
         self.motor_derecho = Motor("Nema17", "Paso a paso", "Detenido", False)
         self.sensor_baterias = Sensor_temp(0, 0, 0)
+        self.bluetooth = BlueRobot("COM11", 9600)
     
     
-    def conectar_bluetooth(self):        # Código para conectar el robot por Bluetooth
+    def conectar_bluetooth(self, puerto):      
+        # Código para conectar el robot por Bluetooth
         try:
-            self.bluetooth_serial = serial.Serial("COM13",9600) 
-            self.estado_bt = True
+            if self.estado_bt == False:
+                if self.bluetooth.connect(puerto):
+                    self.estado_bt = True
+                else: pass
+            elif self.estado_bt == True:
+                if self.bluetooth.disconnect(puerto):
+                    self.estado_bt = False
+            else: print("error re raro che.")
         except TypeError as error:
             self.estado_bt = False
             print("Hubo un problema al intentar conectar con el robot.")
             print("El error es: {}".format(error))
-    
-    #   Método para reasignar puerto de comunicación Serial
-    def asignar_bt(self, bt_puerto):
-        try:
-            self.bluetooth_serial = bt_puerto
-            self.estado_bt = True
-        except TypeError as error:
-            self.estado_bt = False
-            print("Hubo un problema al intentar reasignar puerto serial con el robot.")
-            print("El error es: {}".format(error))
-  
+      
     #   Método para cambiar el estado del objeto robot_tank
     def cambiar_estado_bt(self):
         self.estado_bt = not self.estado_bt
@@ -84,7 +83,7 @@ class Robot:
     
     def actualizar_robot(self, comando, newDireccion, newVelocidad, newEstadoMotorIzquierdo, newEstadoMotorDerecho):
         try:
-            self.bluetooth_serial.write(comando)
+            self.bluetooth.serial.write(comando)
             self.direccion = newDireccion
             self.velocidad = newVelocidad
             self.motor_derecho.cambiar_estado(newEstadoMotorDerecho)

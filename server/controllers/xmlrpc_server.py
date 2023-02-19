@@ -3,26 +3,24 @@
 
 from xmlrpc.server import SimpleXMLRPCServer
 from threading import Thread
-from .robot_controller import RobotController
 import socket
 
 class XmlRpc_servidor(object):
-    server = None
-    RPC_PORT = 8891
-    estado_sv = False
-    
-
-    def __init__(self, interfaz, port = RPC_PORT):
+    def __init__(self, RobotController, port = 8891):
         self.puerto_usado = port
-        self.interfaz = interfaz
+        self.robotController = RobotController
+        self.server = None
+        self.estado_sv = False
         while True:
             try:
                 #Creacion del servidor indicando el puerto deseado
                 self.server = SimpleXMLRPCServer(("localhost", self.puerto_usado), allow_none = True, logRequests = False)
                 if self.puerto_usado != port:
                     print("Servidor RPC ubicado en puerto no estándar [%d]" % self.puerto_usado)
+                self.estado_sv = True
                 break
             except socket.error as e:
+                self.estado_sv = False
                 if e.errno == 98:
                     self.puerto_usado += 1
                     continue
@@ -40,38 +38,53 @@ class XmlRpc_servidor(object):
         self.server.register_function(self.do_izquierda,'izquierda')
         self.server.register_function(self.do_detenerse,'detenerse')
         
-        #Se lanza el servidor
-        self.thread = Thread(target = self.run_server)
-        self.thread.start()
-        print("Servidor RPC iniciado en el puerto [%s]" % str(self.server.server_address))
+    #     #Se lanza el servidor
+    #     self.thread = Thread(target = self.run_server)
+    #     self.thread.start()
+    #     print("Servidor RPC iniciado en el puerto [%s]" % str(self.server.server_address))
+    # def run_server(self):
+    #     if self.estado_sv:
+    #         self.server.serve_forever()
+        
+        self.thread = Thread(target = self.run_server)        
 
     def run_server(self):
-        self.server.serve_forever()
-
+        self.thread.start()
+        if self.estado_sv:
+            print("Servidor RPC iniciado en el puerto [%s]" % str(self.server.server_address))
+            self.server.serve_forever()
+        #Se lanza el servidor
+        
+        
     def shutdown(self):
+        self.estado_sv = False
         self.server.shutdown()
         self.thread.join()
 
     def do_escribir(self, texto):
         # Funcion/servicio: mensaje al argumento provisto
-        return self.interfaz.escribir(texto)
+        return self.robotController.escribir(texto)
     
-    def do_on_off_bt(self, estado_bt):
-        if estado_bt is True:
-            return self.interfaz.conn_bt()
-        elif estado_bt is False:
-            return "Bluetooth desactivado."
+    def do_on_off_bt(self):
+        return self.robotController.conectar_bluetooth()
+        
     def do_on_off_mt(self):
-        return self.interfaz.en_motors()
+        return self.robotController.habilitar_motores()
+        
     def do_avanzar(self):
-        return self.interfaz.adelante()
+        return self.robotController.mover_adelante()
+    
     def do_retroceder(self):
-        return self.interfaz.retrocede()
+        return self.robotController.mover_atras()
+    
     def do_derecha(self):
-        return self.interfaz.izquierda()
+        return self.robotController.mover_derecha()
+    
     def do_izquierda(self):
-        return self.interfaz.derecha()
+        return self.robotController.mover_izquierda()
+    
     def do_detenerse(self):
-        return self.interfaz.detener()
+        return self.robotController.detener_movimiento()
+    
 
 

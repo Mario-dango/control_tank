@@ -3,22 +3,35 @@ from PyQt5.QtWidgets import *
 from .robot_controller import RobotController
 from .xmlrpc_server import XmlRpc_servidor
 from PyQt5.QtCore import *
+import serial.tools.list_ports
 
 class MainController(QObject):
     def __init__(self, mainView):
         super().__init__()
         self.view = mainView
         self.robotController = RobotController()
+        
+        
+
+        self.ports = serial.tools.list_ports.comports()
+
+        for port, desc, hwid in sorted(self.ports):
+            print("{}: {} [{}]".format(port, desc, hwid))
+            
+        for port, desc, hwid in sorted(self.ports):
+            self.view.bt_list.addItem(port)
+        
         self.view.show()
         # Conexión de señales y slots
         self.view.showEvent = self.show_event
         # self.view.closeEvent = self.close_event
 
+        # self.view.bt_list.connect(self.log_moverAdelante)
         # Key press event
         self.view.keyPressEvent = self.teclaPresionada
         # Eventos de botones
-        self.view.on_off_bt.clicked.connect(self.robotController.conectar_bluetooth)
-        # self.view.on_off_bt.clicked.connect(self.alternarTextoBotonBluetooth)
+        self.view.on_off_bt.clicked.connect(self.robotController.conectarBluetooth)
+        self.view.on_off_bt.clicked.connect(self.alternarTextoBotonBluetooth)
 
         self.view.on_off_server.clicked.connect(self.iniciar_servidor_xmlrpc)
         
@@ -59,7 +72,7 @@ class MainController(QObject):
         print(info)
         self.view.add_rlog(info)
         try:
-            self.servidor = XmlRpc_servidor(8891)
+            self.servidor = XmlRpc_servidor(self.robotController, 8891)
             self.view.add_rlog("Se logró iniciar el servidor XML-RPC exitosamente en puerto 8891.")
             self.view.add_rlog(" ")
         except TypeError as error:
@@ -93,6 +106,12 @@ class MainController(QObject):
             self.view.add_rlog("Se presionó la tecla 5: Detener movimiento.")
             self.view.add_rlog(" ")
             self.robotController.detener_movimiento()
+
+    def alternarTextoBotonBluetooth(self):
+        self.robotController.portBt = self.view.bt_list.currentText()
+        # print("Impresión de puerto {} en el evento showWindow en mainController".format(self.robotController.portBt))
+        self.view.add_rlog("Se presionó el botón para conectar el bluetooth por el puerto {}.".format(self.robotController.portBt))
+        self.view.add_rlog(" ")
 
     def log_habilitarMotores(self):
         self.view.add_rlog("Se presionó el radioBotón para cambiar estado de motores.")

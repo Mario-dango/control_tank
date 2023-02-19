@@ -14,7 +14,7 @@ class MainView(QMainWindow):
         #Iniciar el objeto QMainWindow
         QMainWindow.__init__(self)
         # cargar la interfaz de usuario desde el archivo ui generado por Qt Designer
-        uic.loadUi('views/ui/panel-control.ui', self)
+        uic.loadUi('server/views/ui/dashboard.ui', self)
         self.setWindowTitle("Interfaz de control para Tan-k")
         self.setMinimumSize(1000,600)
         self.setMaximumSize(1001,701)
@@ -39,7 +39,7 @@ class MainView(QMainWindow):
     def showEvent(self, event):
         self.autor.setText("Autor: Mario Papetti Funes \nInstagram: Mario.spf")
         self.label_2.setText("Registro de acciones realizadas:")
-        self.Imagen.setPixmap(QPixmap('resourse/pictures/robot_control.png'))
+        self.Imagen.setPixmap(QPixmap('server/resourse/pictures/robot_control.png'))
         # self.Imagen.setPixmap(QPixmap("../resourses/pictures/reobot_control.png"))
         self.t_botones.setText("Botones para controlar el movimiento del robot.")
 
