@@ -1,78 +1,124 @@
 from PyQt5.QtCore import QObject
-from PyQt5.QtWidgets import QApplication
-from views.main_view import MainView
+from PyQt5.QtWidgets import *
 from .robot_controller import RobotController
 from .xmlrpc_server import XmlRpc_servidor
 from PyQt5.QtCore import *
 
 class MainController(QObject):
-    def __init__(self):
+    def __init__(self, mainView):
         super().__init__()
-        self._view = MainView()
-        self.servidor = XmlRpc_servidor()
-        self._robot_controller = RobotController()
-        
+        self.view = mainView
+        self.robotController = RobotController()
+        self.view.show()
         # Conexión de señales y slots
-        self._view.showEvent = self.show_event
-        self._view.closeEvent = self.close_event
-        # Key press event
-        self._view.keyPressEvent = self.teclaPresionada
-        # Eventos de botones
-        self._view.on_off_bt.clicked.connect(self._robot_controller.conectar_bluetooth)
-        self._view.on_off_bt.clicked.connect(self.alternarTextoBotonBluetooth)
-        
-        self._view.on_off_server.clicked.connect(self.iniciar_servidor_xmlrpc)
-        self._view.on_off_motor.clicked.connect(self._robot_controller.habilitar_motores)
-        self._view.btn_avanzar.clicked.connect(self._robot_controller.mover_adelante)
-        self._view.btn_retroceder.clicked.connect(self._robot_controller.mover_atras)
-        self._view.btn_derecha.clicked.connect(self._robot_controller.mover_derecha)
-        self._view.btn_izquierda.clicked.connect(self._robot_controller.mover_izquierda)
-        self._view.btn_detener.clicked.connect(self._robot_controller.detener_movimiento)
-        
+        self.view.showEvent = self.show_event
+        # self.view.closeEvent = self.close_event
 
+        # Key press event
+        self.view.keyPressEvent = self.teclaPresionada
+        # Eventos de botones
+        self.view.on_off_bt.clicked.connect(self.robotController.conectar_bluetooth)
+        # self.view.on_off_bt.clicked.connect(self.alternarTextoBotonBluetooth)
+
+        self.view.on_off_server.clicked.connect(self.iniciar_servidor_xmlrpc)
+        
+        self.view.on_off_motor.clicked.connect(self.log_habilitarMotores)
+        self.view.on_off_motor.clicked.connect(self.robotController.habilitar_motores)
+        
+        self.view.btn_avanzar.clicked.connect(self.log_moverAdelante)
+        self.view.btn_avanzar.clicked.connect(self.robotController.mover_adelante)
+        
+        self.view.btn_retroceder.clicked.connect(self.robotController.mover_atras)
+        self.view.btn_retroceder.clicked.connect(self.log_moverAtras)
+        
+        self.view.btn_derecha.clicked.connect(self.robotController.mover_derecha)
+        self.view.btn_derecha.clicked.connect(self.log_moverDerecha)
+        
+        self.view.btn_izquierda.clicked.connect(self.robotController.mover_izquierda)
+        self.view.btn_izquierda.clicked.connect(self.log_moverIzquierda)
+        
+        self.view.btn_detener.clicked.connect(self.robotController.detener_movimiento)
+        self.view.btn_detener.clicked.connect(self.log_detenerMovimiento)
 
         # Conectar el evento de cierre de la ventana con el método correspondiente
         self.view.closeEvent = self.on_window_close
 
-        
-        # self._view.show()
-    
+
     def show_event(self, event):
         print("Showing main window")
-    
 
     def on_window_close(self, event):
         # Detener el movimiento del robot
-        self._robot_controller.detener_movimiento()
-
+        self.robotController.detener_movimiento()
         # Llamar al método original de closeEvent para cerrar la ventana
         event.accept()
-    
-    def alternarTextoBotonBluetooth(self):
-        self._view.on_off_bt.setText("")
 
+    #   Método para
     def iniciar_servidor_xmlrpc(self):
-        # Iniciar servidor
-        pass
+        info = "Se presionó el boton de iniciar/finalizar servidor XML-RPC."
+        print(info)
+        self.view.add_rlog(info)
+        try:
+            self.servidor = XmlRpc_servidor(8891)
+            self.view.add_rlog("Se logró iniciar el servidor XML-RPC exitosamente en puerto 8891.")
+            self.view.add_rlog(" ")
+        except TypeError as error:
+            self.view.add_rlog("Hubo un error del tipo: {}".format(error))
+            self.view.add_rlog(" ")
+            print(error)
 
     #Eventos para controlar los movimientos del robot con le pad númerico del teclado
     def teclaPresionada(self, event):
         if event.key() == Qt.Key_8 and self.teclado_ctrl == True:
-            self._robot_controller.mover_adelante()
-            
-        elif event.key() == Qt.Key_2 and self.teclado_ctrl == True:
-            self._robot_controller.mover_atras()
-            
-        elif event.key() == Qt.Key_4 and self.teclado_ctrl == True:
-            self._robot_controller.mover_izquierda()
-            
-        elif event.key() == Qt.Key_6 and self.teclado_ctrl == True:
-            self._robot_controller.mover_derecha()
-            
-        elif event.key() == Qt.Key_5 and self.teclado_ctrl == True:
-            self._robot_controller.detener_movimiento()
+            self.view.add_rlog("Se presionó la tecla 8: Mover hacia adelante.")
+            self.view.add_rlog(" ")
+            self.robotController.mover_adelante()
 
-if __name__ == '__main__':
-    app = QApplication([])
-    main_controller = MainController()
-    app.exec_()
+        elif event.key() == Qt.Key_2 and self.teclado_ctrl == True:
+            self.view.add_rlog("Se presionó la tecla 2: Mover hacia atras.")
+            self.view.add_rlog(" ")
+            self.robotController.mover_atras()
+
+        elif event.key() == Qt.Key_4 and self.teclado_ctrl == True:
+            self.view.add_rlog("Se presionó la tecla 4: Girar a la izuierda.")
+            self.view.add_rlog(" ")
+            self.robotController.mover_izquierda()
+
+        elif event.key() == Qt.Key_6 and self.teclado_ctrl == True:
+            self.view.add_rlog("Se presionó la tecla 6: Girar a la derecha.")
+            self.view.add_rlog(" ")
+            self.robotController.mover_derecha()
+
+        elif event.key() == Qt.Key_5 and self.teclado_ctrl == True:
+            self.view.add_rlog("Se presionó la tecla 5: Detener movimiento.")
+            self.view.add_rlog(" ")
+            self.robotController.detener_movimiento()
+
+    def log_habilitarMotores(self):
+        self.view.add_rlog("Se presionó el radioBotón para cambiar estado de motores.")
+        self.view.add_rlog(" ")
+
+    def log_moverAdelante(self):
+        self.view.add_rlog("Se presionó mover hacia adelante.")
+        self.view.add_rlog(" ")
+
+    def log_moverAtras(self):
+        self.view.add_rlog("Se presionó mover hacia atras.")
+        self.view.add_rlog(" ")
+
+    def log_moverDerecha(self):
+        self.view.add_rlog("Se presionó girar a la deerecha.")
+        self.view.add_rlog(" ")
+
+    def log_moverIzquierda(self):
+        self.view.add_rlog("Se presionó girar a la izquierda.")
+        self.view.add_rlog(" ")
+
+    def log_detenerMovimiento(self):
+        self.view.add_rlog("Se presionó detener movimiento.")
+        self.view.add_rlog(" ")
+
+# if __name__ == '__main__':
+#     app = QApplication([])
+#     main_controller = MainController()
+#     app.exec_()

@@ -31,7 +31,7 @@ class Robot:
     
     def conectar_bluetooth(self):        # Código para conectar el robot por Bluetooth
         try:
-            self.bluetooth_serial = serial.Serial("COM8",9600) 
+            self.bluetooth_serial = serial.Serial("COM13",9600) 
             self.estado_bt = True
         except TypeError as error:
             self.estado_bt = False

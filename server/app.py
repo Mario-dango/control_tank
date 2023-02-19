@@ -8,16 +8,18 @@
 ##              (Para poder abrir el programa y poder comunicarse por BT)
 
 import sys
-from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import QApplication
+from controllers.main_controller import MainController
 from views.main_view import MainView
 
 if __name__ == "__main__":
-
+    
     #Instancia para iniciar una aplicación
     app = QApplication(sys.argv)
     #Crear un objeto de la clase
-    panel_control = MainView()
-    #Mostra la ventana
-    panel_control.show()
+    view = MainView() # Instancio primero al objeto de mi ventana principal
+    controller = MainController(view)   # Luego instancio mi controlador pasandole mi objeto ventana
+    # controller.showMainWindow()
     #Ejecutar la aplicación
-    app.exec_()
+    sys.exit(app.exec_())
+    
