@@ -29,6 +29,8 @@ class MainView(QMainWindow):
         #Colores estado de botoón servidor
         self.btnDesactivo = "background-color: red; border: 1px; padding: 10px"
         self.btnActivo = "background-color: green; border: 1px; padding: 10px"
+        # Desabilito todos los botones de movimiento del robot
+        self.update_robot_status(True)
         #Botones para habilitar o deshabilitar parametros
         self.on_off_bt.setCheckable(True)
         self.on_off_bt.toggle()
@@ -43,8 +45,6 @@ class MainView(QMainWindow):
         # self.Imagen.setPixmap(QPixmap("../resourses/pictures/reobot_control.png"))
         self.t_botones.setText("Botones para controlar el movimiento del robot.")
 
-        # Desabilito todos los botones de movimiento del robot
-        self.update_robot_status(False)
 
         self.r_log.addItem("°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°")
         self.r_log.addItem("Bienvenido a la interfaz para controlar al robot TANK")

@@ -16,7 +16,9 @@ class RobotController(QObject):
             print(info)
             self.view.add_rlog(info)
             if self.robot_tank.estado_bt:      
-                self.robot_tank.conectar_bluetooth(self.portBt)      
+                self.robot_tank.conectar_bluetooth(self.portBt)  
+                # Desabilito todos los botones de movimiento del robot
+                self.view.update_robot_status(True)    
             else:
                 self.robot_tank.conectar_bluetooth(self.portBt)
             
@@ -82,17 +84,6 @@ class RobotController(QObject):
                 print(info)
                 self.view.add_rlog(info)
         else: pass
-
-    # def verificarConexionBluetooth(self):
-    #     if self.robot_tank.estado_bt == False:
-    #         info = "Conectar al robot movil vía bluetooth antes."
-    #         # return False
-    #     elif self.robot_tank.estado_bt == True:
-    #         info = "Se verificó conexión exitosa con el robot."
-    #     print(info)
-    #     self.view.add_rlog(info)
-    #     return
-    
     def verificarHabilitacionDeMovimiento(self):
         if self.robot_tank.estado_bt:
             if self.robot_tank.motoresActivados:
@@ -108,4 +99,76 @@ class RobotController(QObject):
             self.view.add_rlog("Revisar estado de la comunicación Bluetooth.")
             return False
             
-        
+ 
+class RobotControllerOptimizado(QObject):
+    def __init__(self):
+        super().__init__()
+        self.view = MainView()
+        self.robot_tank = Robot()
+        self.portBt = self.view.bt_list.currentText()
+        # self.teclado_ctrl = False       #   Habilita control de teclas en interfaz provista por conexión exitosa
+        # self.conexionBluetooth = False 
+
+    def conectarBluetooth(self):
+        if self.portBt:
+            info = "Se presionó el botón de conectar/desconectar Serial Bluetooth."
+            print(info)
+            self.view.add_rlog(info)
+            self.robot_tank.conectar_bluetooth(self.portBt) if self.robot_tank.estado_bt else self.robot_tank.conectar_bluetooth(self.portBt)
+
+    def habilitar_motores(self):
+        self.robot_tank.cambiarEstadoDeMotores(not self.robot_tank.motoresActivados)
+
+    def mover(self, direccion):
+        if self.verificarHabilitacionDeMovimiento():
+            try:
+                if direccion == "adelante":
+                    self.robot_tank.mover_adelante()
+                elif direccion == "atras":
+                    self.robot_tank.mover_atras()
+                elif direccion == "derecha":
+                    self.robot_tank.mover_derecha()
+                elif direccion == "izquierda":
+                    self.robot_tank.mover_izquierda()
+                elif direccion == "detener":
+                    self.robot_tank.detener_movimiento()
+            except TypeError as error:
+                info = f"Hubo un error en mover {direccion}, error: {error}"
+                print(info)
+                self.view.add_rlog(info)
+
+    def mover_adelante(self):
+        self.mover("adelante")
+
+    def mover_atras(self):
+        self.mover("atras")
+
+    def mover_derecha(self):
+        self.mover("derecha")
+
+    def mover_izquierda(self):
+        self.mover("izquierda")
+
+    def detener_movimiento(self):
+        self.mover("detener")
+
+    def verificarHabilitacionDeMovimiento(self):
+        if not self.robot_tank.estado_bt:
+            info = "La conexión Bluetooth está deshabilitada, habilítela para ejecutar el movimiento deseado."
+            self.view.add_rlog(info)
+            print(info)
+            # self.teclado_ctrl = True
+            return False
+        elif not self.robot_tank.motoresActivados:
+            info = "Los motores están deshabilitados, habilítelos para ejecutar el movimiento deseado."
+            self.view.add_rlog(info)
+            print(info)
+            return False
+        else:
+            info = "Los motores se encuentran habilitados y comunicados con el robot."
+            self.view.add_rlog("Conexión BT: OK   //    Motores: Habilitados")
+            print(info)
+            return True
+
+
+       

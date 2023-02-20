@@ -1,3 +1,6 @@
+#!/usr/bin/python 
+# -*- coding: utf-8 -*-
+
 from .PCB import PCB_mother
 from .motor import Motor
 from .sensor_temperatura import Sensor_temp

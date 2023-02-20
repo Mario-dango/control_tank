@@ -1,7 +1,7 @@
 from PyQt5.QtCore import QObject
 from PyQt5.QtWidgets import *
-from .robot_controller import RobotController
-from .xmlrpc_server import XmlRpc_servidor
+from .robot_controller import RobotControllerOptimizado
+from .xmlrpcServer_controller import XmlRpcServidorOptimizado
 from PyQt5.QtCore import *
 import serial.tools.list_ports
 
@@ -9,7 +9,8 @@ class MainController(QObject):
     def __init__(self, mainView):
         super().__init__()
         self.view = mainView
-        self.robotController = RobotController()
+        self.robotController = RobotControllerOptimizado()
+        self.estadoServidorXmlrpc = False
         
         
 
@@ -62,26 +63,43 @@ class MainController(QObject):
 
     def on_window_close(self, event):
         # Detener el movimiento del robot
-        self.robotController.detener_movimiento()
+        if self.robotController.robot_tank.estado_bt:                                        
+            self.robotController.detener_movimiento()   
+            self.robotController.habilitar_motores()
+            self.robotController.conectarBluetooth()
+                
+        if self.estadoServidorXmlrpc:
+            self.servidor.shutdown()
+            self.estadoServidorXmlrpc = False                                    
         # Llamar al método original de closeEvent para cerrar la ventana
         event.accept()
+        exit()
 
     #   Método para
     def iniciar_servidor_xmlrpc(self):
         info = "Se presionó el boton de iniciar/finalizar servidor XML-RPC."
         print(info)
-        self.view.add_rlog(info)
+        # self.view.add_rlog(info)             
         try:
-            self.servidor = XmlRpc_servidor(self.robotController, 8891)
-            self.view.add_rlog("Se logró iniciar el servidor XML-RPC exitosamente en puerto 8891.")
-            self.view.add_rlog(" ")
+            if not self.estadoServidorXmlrpc:   
+                self.servidor = XmlRpcServidorOptimizado(self.robotController, 8891)
+                self.estadoServidorXmlrpc = True
+                self.view.add_rlog("----------------------------XML-RPC--------------------------------------")
+                self.view.add_rlog("Se logró iniciar el servidor XML-RPC exitosamente en puerto 8891.")
+            else:
+                self.servidor.shutdown()
+                self.estadoServidorXmlrpc = False
+                self.view.add_rlog("Se logró detener el servidor XML-RPC exitosamente en puerto 8891.")
+                self.view.add_rlog("#################################################################")
         except TypeError as error:
             self.view.add_rlog("Hubo un error del tipo: {}".format(error))
             self.view.add_rlog(" ")
             print(error)
+                
 
     #Eventos para controlar los movimientos del robot con le pad númerico del teclado
     def teclaPresionada(self, event):
+        self.teclado_ctrl = self.robotController.robot_tank.estado_bt
         if event.key() == Qt.Key_8 and self.teclado_ctrl == True:
             self.view.add_rlog("Se presionó la tecla 8: Mover hacia adelante.")
             self.view.add_rlog(" ")
@@ -110,6 +128,11 @@ class MainController(QObject):
     def alternarTextoBotonBluetooth(self):
         self.robotController.portBt = self.view.bt_list.currentText()
         # print("Impresión de puerto {} en el evento showWindow en mainController".format(self.robotController.portBt))
+        if self.robotController.robot_tank.estado_bt:
+            self.view.on_off_bt.setText("CONECTADO!")
+        else:
+            self.view.on_off_bt.setText("Conectar dispositivo Bluetooth")
+            
         self.view.add_rlog("Se presionó el botón para conectar el bluetooth por el puerto {}.".format(self.robotController.portBt))
         self.view.add_rlog(" ")
 

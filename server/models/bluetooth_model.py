@@ -1,5 +1,5 @@
 import serial
-
+import time
 class BlueRobot:
     def __init__(self, port, baudrate):
         self._port = port
@@ -17,7 +17,14 @@ class BlueRobot:
     def connect(self, portBt):
         self.changePort(portBt)
         try:
+            print(self._port)
+            print(type(self._port))
+            print(self._baudrate)
+            print(type(self._baudrate))
             self.serial = serial.Serial(self._port, self._baudrate)
+            # Espera a que se establezca la conexión serial
+            while not self.serial.is_open:
+                time.sleep(1)
             print(f"Conectado al puerto {self._port} con velocidad de transmisión {self._baudrate}")
             return True
         except serial.SerialException as e:
