@@ -9,15 +9,12 @@ class MainController(QObject):
     def __init__(self, mainView):
         super().__init__()
         self.view = mainView
-        self.robotController = RobotControllerOptimizado()
+        self.robotController = RobotControllerOptimizado(mainView)
         self.estadoServidorXmlrpc = False
         
         
 
         self.ports = serial.tools.list_ports.comports()
-
-        for port, desc, hwid in sorted(self.ports):
-            print("{}: {} [{}]".format(port, desc, hwid))
             
         for port, desc, hwid in sorted(self.ports):
             self.view.bt_list.addItem(port)
@@ -27,7 +24,7 @@ class MainController(QObject):
         self.view.showEvent = self.show_event
         # self.view.closeEvent = self.close_event
 
-        # self.view.bt_list.connect(self.log_moverAdelante)
+        self.view.bt_list.currentIndexChanged.connect(self.actualizarPort)
         # Key press event
         self.view.keyPressEvent = self.teclaPresionada
         # Eventos de botones
@@ -125,19 +122,29 @@ class MainController(QObject):
             self.view.add_rlog(" ")
             self.robotController.detener_movimiento()
 
+    def actualizarPort(self):
+        self.robotController.portBt = self.view.bt_list.currentText()
+
     def alternarTextoBotonBluetooth(self):
         self.robotController.portBt = self.view.bt_list.currentText()
+        print("El puerto tomado es: {}".format(self.robotController.portBt))
         # print("Impresión de puerto {} en el evento showWindow en mainController".format(self.robotController.portBt))
         if self.robotController.robot_tank.estado_bt:
             self.view.on_off_bt.setText("CONECTADO!")
+            print(self.robotController.portBt)
         else:
             self.view.on_off_bt.setText("Conectar dispositivo Bluetooth")
+            self.robotController.portBt = self.view.bt_list.currentText()
             
         self.view.add_rlog("Se presionó el botón para conectar el bluetooth por el puerto {}.".format(self.robotController.portBt))
         self.view.add_rlog(" ")
 
     def log_habilitarMotores(self):
         self.view.add_rlog("Se presionó el radioBotón para cambiar estado de motores.")
+        if self.view.on_off_motor.isChecked():
+            self.view.add_rlog("Se procederá a Activar los motores del Robot.")
+        else:    
+            self.view.add_rlog("Se procederá a Desactivar los motores del Robot.")
         self.view.add_rlog(" ")
 
     def log_moverAdelante(self):

@@ -5,7 +5,6 @@ from .PCB import PCB_mother
 from .motor import Motor
 from .sensor_temperatura import Sensor_temp
 from .bluetooth_model import BlueRobot
-import serial
 
 ## Será el encargado de generar la conexión bluetooth !!
         
@@ -38,11 +37,13 @@ class Robot:
         # Código para conectar el robot por Bluetooth
         try:
             if self.estado_bt == False:
-                if self.bluetooth.connect(puerto):
+                self.bluetooth.changePort(puerto)
+                if self.bluetooth.connect():
                     self.estado_bt = True
                 else: pass
             elif self.estado_bt == True:
-                if self.bluetooth.disconnect(puerto):
+                if self.bluetooth.disconnect():
+                    self.bluetooth.changePort(puerto)
                     self.estado_bt = False
             else: print("error re raro che.")
         except TypeError as error:
@@ -55,51 +56,58 @@ class Robot:
         self.estado_bt = not self.estado_bt
         
     def habilitar_motores(self):        # Código para habilitar los motores del robot
-        dato = (b'A')       # Comando que habilita ambos motores
+        dato = 'A'       # Comando que habilita ambos motores
         self.actualizar_robot(dato, "Ninguna, detenido.", 0, "Detenido.", "Detenido.")
-        self.cambiarEstadoDeMotores(True)
 
     def deshabilitar_motores(self):        # Código para deshabilitar los motores del robot
-        dato = (b'B')       # Comando que deshabilita ambos motores
+        dato = 'B'       # Comando que deshabilita ambos motores
         self.actualizar_robot(dato, "Ninguna, detenido.", 0, "Detenido.", "Detenido.")
-        self.cambiarEstadoDeMotores(False)
         
     def mover_adelante(self):      
-        dato = (b'8')
+        dato = '8'
         self.actualizar_robot(dato, "Avanza hacia adelante.", 3, "Giro antihorario.", "Giro horario.")
     
     def mover_atras(self):
-        dato = (b'2')
+        dato = '2'
         self.actualizar_robot(dato, "NAvanza hacia atraz.", 3, "Giro horario.", "Giro antihorario.")
             
     def mover_derecha(self):
-        dato = (b'6')
+        dato = '6'
         self.actualizar_robot(dato, "Gira a la derecha.", 0, "Giro antihorario.", "Giro antihorario.")
     
     def mover_izquierda(self):
-        dato = (b'4')
+        dato = '4'
         self.actualizar_robot(dato, "Gira a la izquierda.", 3, "Giro horario.", "Giro horario.")
     
     def detener_movimiento(self):
-        dato = (b'0')       # Código para detener el movimiento del robot
+        dato = '0'       # Código para detener el movimiento del robot
         self.actualizar_robot(dato, "Ninguna, detenido.", 0, "Detenido.", "Detenido.")
     
     def actualizar_robot(self, comando, newDireccion, newVelocidad, newEstadoMotorIzquierdo, newEstadoMotorDerecho):
         try:
-            self.bluetooth.serial.write(comando)
-            self.direccion = newDireccion
-            self.velocidad = newVelocidad
-            self.motor_derecho.cambiar_estado(newEstadoMotorDerecho)
-            self.motor_izquierdo.cambiar_estado(newEstadoMotorIzquierdo)
+            # self.bluetooth.serial.write(comando)
+            self.bluetooth.send(comando)
+            if self.motoresActivados:
+                self.direccion = newDireccion
+                self.velocidad = newVelocidad
+                self.motor_derecho.cambiar_estado(newEstadoMotorDerecho)
+                self.motor_izquierdo.cambiar_estado(newEstadoMotorIzquierdo)
         except TypeError as error:
             print("Hubo un error en la comunicación.")
             print("El error es: {}".format(error))
     
     def cambiarEstadoDeMotores(self, estado):
+        if self.motoresActivados == False and estado:
+            self.habilitar_motores()
+            # self.motoresActivados = not self.motoresActivados
+            # print(estado)
+        elif self.motoresActivados == True and not estado:
+            self.deshabilitar_motores()
+        # else:
+        #     self.deshabilitar_motores()        
         self.motor_derecho.cambiar_habilitacion(estado)
         self.motor_izquierdo.cambiar_habilitacion(estado)
         self.motoresActivados = estado
-        
         
 
 

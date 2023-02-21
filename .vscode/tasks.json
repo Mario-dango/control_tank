@@ -1,0 +1,22 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-ID:/Qt/6.4.0/mingw_64/include",
+                "-ID:/Qt/6.4.0/mingw_64/include/QtCore", 
+                "-ID:/Qt/6.4.0/mingw_64/include/QtWidgets", 
+                "-LD:/Qt/6.4.0/mingw_64/include/lib", 
+                "-lQt6Core", 
+                "-lQt6Widgets", 
+                "-std=c++17",
+                "${workspaceFolder}/client/main.cpp",
+                "-o",
+                "${workspaceFolder}/client/out.exe"
+            ]
+        }
+    ]
+}

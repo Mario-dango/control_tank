@@ -85,6 +85,7 @@ class RobotController(QObject):
                 self.view.add_rlog(info)
         else: pass
     def verificarHabilitacionDeMovimiento(self):
+        print("entre a verificar")
         if self.robot_tank.estado_bt:
             if self.robot_tank.motoresActivados:
                 print("Los motores se encuentran habilitados y comunicados con el robot.")
@@ -101,9 +102,9 @@ class RobotController(QObject):
             
  
 class RobotControllerOptimizado(QObject):
-    def __init__(self):
+    def __init__(self, mainView):
         super().__init__()
-        self.view = MainView()
+        self.view = mainView
         self.robot_tank = Robot()
         self.portBt = self.view.bt_list.currentText()
         # self.teclado_ctrl = False       #   Habilita control de teclas en interfaz provista por conexión exitosa
@@ -114,10 +115,21 @@ class RobotControllerOptimizado(QObject):
             info = "Se presionó el botón de conectar/desconectar Serial Bluetooth."
             print(info)
             self.view.add_rlog(info)
-            self.robot_tank.conectar_bluetooth(self.portBt) if self.robot_tank.estado_bt else self.robot_tank.conectar_bluetooth(self.portBt)
+            if not self.robot_tank.estado_bt:
+                self.robot_tank.conectar_bluetooth(self.portBt)
+            else:
+                self.robot_tank.bluetooth.disconnect()
 
-    def habilitar_motores(self):
-        self.robot_tank.cambiarEstadoDeMotores(not self.robot_tank.motoresActivados)
+
+    def habilitar_motores(self): 
+        print(self.view.on_off_motor.isChecked())       
+        if self.view.on_off_motor.isChecked():
+            self.robot_tank.cambiarEstadoDeMotores(True)
+        else:
+            self.robot_tank.cambiarEstadoDeMotores(False)
+            
+
+
 
     def mover(self, direccion):
         if self.verificarHabilitacionDeMovimiento():
@@ -136,6 +148,8 @@ class RobotControllerOptimizado(QObject):
                 info = f"Hubo un error en mover {direccion}, error: {error}"
                 print(info)
                 self.view.add_rlog(info)
+        else:
+            print("Falló en la verificación de movimiento, no enviará comandos desde robotController a robot_bt.")
 
     def mover_adelante(self):
         self.mover("adelante")
@@ -157,7 +171,6 @@ class RobotControllerOptimizado(QObject):
             info = "La conexión Bluetooth está deshabilitada, habilítela para ejecutar el movimiento deseado."
             self.view.add_rlog(info)
             print(info)
-            # self.teclado_ctrl = True
             return False
         elif not self.robot_tank.motoresActivados:
             info = "Los motores están deshabilitados, habilítelos para ejecutar el movimiento deseado."

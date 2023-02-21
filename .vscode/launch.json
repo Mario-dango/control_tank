@@ -8,9 +8,17 @@
             "name": "Python: archivo actual",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "${workspaceFolder}/server/app.py",
             "console": "integratedTerminal",
-            "justMyCode": true
+            "stopOnEntry": false,
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}",
+            "env": {},
+            "envFile": "${workspaceFolder}/.env",
+            // "debugOptions": [
+            //     "RedirectOutput"
+            // ],
+            "args": []
         }
     ]
 }

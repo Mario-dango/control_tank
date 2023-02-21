@@ -16,6 +16,5 @@ class Motor:
     def set_descripcion(self, new_descripcion):
         self._description = new_descripcion
 
-    def cambiar_habilitacion(self, enable):
-        
-        self.habilitado = not self.estado
+    def cambiar_habilitacion(self, estado):
+        self.habilitado = estado
