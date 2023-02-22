@@ -1,7 +1,7 @@
 #include "../resourse/lib/controllers_h/inicioController.h"
 #include "../resourse/lib/models_h/inicioModel.h"
 #include "../resourse/lib/views_h/inicioView.h"
-// #include "../resourse/lib/views_h/dashboardView.h"
+#include "../resourse/lib/views_h/dashboardView.h"
 
 InicioController::InicioController(InicioModel *modelo, InicioView *vista, QObject *parent)
     : QObject(parent), modelo(modelo), vista(vista)
@@ -21,3 +21,5 @@ void InicioController::iniciarSesion()
         // Mostrar mensaje de error
     }
 }
+
+

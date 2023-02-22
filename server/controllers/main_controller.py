@@ -1,4 +1,3 @@
-from PyQt5.QtCore import QObject
 from PyQt5.QtWidgets import *
 from .robot_controller import RobotControllerOptimizado
 from .xmlrpcServer_controller import XmlRpcServidorOptimizado
@@ -11,17 +10,12 @@ class MainController(QObject):
         self.view = mainView
         self.robotController = RobotControllerOptimizado(mainView)
         self.estadoServidorXmlrpc = False
-        
-        
-
-        self.ports = serial.tools.list_ports.comports()
-            
+          
+        self.ports = serial.tools.list_ports.comports()            
         for port, desc, hwid in sorted(self.ports):
             self.view.bt_list.addItem(port)
         
         self.view.show()
-        # Conexión de señales y slots
-        self.view.showEvent = self.show_event
         # self.view.closeEvent = self.close_event
 
         self.view.bt_list.currentIndexChanged.connect(self.actualizarPort)
@@ -53,10 +47,6 @@ class MainController(QObject):
 
         # Conectar el evento de cierre de la ventana con el método correspondiente
         self.view.closeEvent = self.on_window_close
-
-
-    def show_event(self, event):
-        print("Showing main window")
 
     def on_window_close(self, event):
         # Detener el movimiento del robot

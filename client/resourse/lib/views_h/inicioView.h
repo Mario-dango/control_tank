@@ -1,5 +1,5 @@
-#ifndef INICIOVIEW_H
-#define INICIOVIEW_H
+#ifndef INICIO_VIEW_H
+#define INICIO_VIEW_H
 
 #include <QDialog>
 

@@ -29,3 +29,4 @@ bool InicioModel::credencialesValidas() const
     // Comprobar si las credenciales son válidas
     return (m_nombreUsuario == "admin" && m_contrasena == "admin");
 }
+
