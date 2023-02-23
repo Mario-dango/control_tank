@@ -16,7 +16,7 @@ public:
 
     bool credencialesValidas() const;
 
-    bool validarUsuario(const &nombreUsuario);
+    bool validarUsuario();
 
 private:
     QString m_nombreUsuario;

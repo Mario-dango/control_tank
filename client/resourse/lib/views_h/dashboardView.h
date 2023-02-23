@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QMainWindow>
+#include "../client/views/ui/control_bt_client_ui.h"
 
 namespace Ui {
     class DashboardView;

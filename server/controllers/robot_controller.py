@@ -1,11 +1,14 @@
 from PyQt5.QtCore import QObject
 from models.robot_bt import Robot
-from views.main_view import MainView
+from models.archivo_model import ArchivoModel
+from time import sleep
+from datetime import datetime
 class RobotControllerOptimizado(QObject):
     def __init__(self, mainView):
         super().__init__()
         self.view = mainView
         self.robot_tank = Robot()
+        self.archivo = ArchivoModel()
         self.portBt = self.view.bt_list.currentText()
         # self.teclado_ctrl = False       #   Habilita control de teclas en interfaz provista por conexión exitosa
         # self.conexionBluetooth = False 
@@ -84,4 +87,14 @@ class RobotControllerOptimizado(QObject):
             return True
 
 
-       
+
+    def ejecutar_accion(registro):
+        accion = registro['accion']
+        parametros = registro['parametros']
+        tiempo = registro['tiempo']
+        tiempo_actual = datetime.now()
+        tiempo_diferencia = (tiempo - tiempo_actual).total_seconds()
+        if tiempo_diferencia > 0:
+            sleep(tiempo_diferencia)
+        # Aquí se ejecuta la acción del robot con los parámetros correspondientes
+        print(f"Ejecutando acción '{accion}' con parámetros '{parametros}'")

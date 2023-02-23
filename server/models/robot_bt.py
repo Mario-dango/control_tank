@@ -29,7 +29,7 @@ class Robot:
         self.pcb = PCB_mother("v1.0", "2022-02-15 rev:4.2", "Mario Papetti")
         self.motor_izquierdo = Motor("Nema17", "Paso a paso", "Detenido", False)
         self.motor_derecho = Motor("Nema17", "Paso a paso", "Detenido", False)
-        self.sensor_baterias = Sensor_temp(0, 0, 0)
+        self.sensor_baterias = Sensor_temp(0, 0)
         self.bluetooth = BlueRobot("COM11", 9600)
     
     

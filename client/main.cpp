@@ -11,13 +11,13 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    InicioModel inicioModel;
+    // InicioModel inicioModel;
     InicioView inicioView;
-    InicioController inicioController(&inicioModel, &inicioView);
+    // InicioController inicioController(&inicioModel, &inicioView);
 
-    DashboardModel dashboardModel;
+    // DashboardModel dashboardModel;
     DashboardView dashboardView;
-    DashboardController dashboardController(&dashboardModel, &dashboardView);
+    DashboardController dashboardController(&inicioView, &dashboardView);
 
     inicioView.show();
 

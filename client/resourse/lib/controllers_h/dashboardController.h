@@ -12,7 +12,7 @@ class DashboardController : public QObject
     Q_OBJECT
     
 public:
-    explicit DashboardController(InicioView *inicioView, DashboardModel *dashboardModel, QObject *parent = nullptr);
+    explicit DashboardController(InicioView *inicioView, DashboardView *dashboardView, QObject *parent = nullptr);
     virtual ~DashboardController();
     
 private slots:
@@ -20,7 +20,7 @@ private slots:
     
 private:
     InicioView *m_inicioView;
-    DashboardController *m_dashboardModel;
+    DashboardController *dashboardView;
 };
 
 #endif // MAINCONTROLLER_H
