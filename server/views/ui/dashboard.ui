@@ -80,21 +80,7 @@
          </property>
          <layout class="QGridLayout" name="gridLayout">
           <item row="0" column="3">
-           <widget class="QComboBox" name="bt_list">
-<!--            
-            <item>
-             <property name="text">
-              <string>98:D3:31:FC:96:5F - HC-06</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>94:17:00:DD:74:5F - Bawy~</string>
-             </property>
-            </item>
- -->
-
-           </widget>
+           <widget class="QComboBox" name="bt_list"/>
           </item>
           <item row="3" column="2">
            <widget class="QPushButton" name="btn_derecha">
@@ -202,6 +188,27 @@
           </item>
           <item>
            <widget class="QListWidget" name="r_log"/>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QLineEdit" name="lte_Xml"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_runXml">
+              <property name="text">
+               <string>Ejecutar</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_logXml">
+              <property name="text">
+               <string>Leer registro</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>

@@ -1,3 +1,4 @@
+#define PY_SSIZE_T_CLEAN
 #!/usr/bin/python 
 # -*- coding: utf-8 -*-
 # # from controllers import main_controller
@@ -14,7 +15,7 @@ class MainView(QMainWindow):
         #Iniciar el objeto QMainWindow
         QMainWindow.__init__(self)
         # cargar la interfaz de usuario desde el archivo ui generado por Qt Designer
-        uic.loadUi('server/views/ui/dashboard.ui', self)
+        uic.loadUi('control_tank/server/views/ui/dashboard.ui', self)
         self.setWindowTitle("Interfaz de control para Tan-k")
         self.setMinimumSize(1000,600)
         self.setMaximumSize(1001,701)
@@ -30,7 +31,7 @@ class MainView(QMainWindow):
         self.btnDesactivo = "background-color: red; border: 1px; padding: 10px"
         self.btnActivo = "background-color: green; border: 1px; padding: 10px"
         # Desabilito todos los botones de movimiento del robot
-        self.update_robot_status(True)
+        self.update_botones_status(True)
         #Botones para habilitar o deshabilitar parametros
         self.on_off_bt.setCheckable(True)
         self.on_off_bt.toggle()
@@ -41,7 +42,7 @@ class MainView(QMainWindow):
     def showEvent(self, event):
         self.autor.setText("Autor: Mario Papetti Funes \nInstagram: Mario.spf")
         self.label_2.setText("Registro de acciones realizadas:")
-        self.Imagen.setPixmap(QPixmap('server/resourse/pictures/robot_control.png'))
+        self.Imagen.setPixmap(QPixmap('control_tank/server/resourse/pictures/robot_control.png'))
         # self.Imagen.setPixmap(QPixmap("../resourses/pictures/reobot_control.png"))
         self.t_botones.setText("Botones para controlar el movimiento del robot.")
 
@@ -49,13 +50,15 @@ class MainView(QMainWindow):
         self.r_log.addItem("°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°")
         self.r_log.addItem("Bienvenido a la interfaz para controlar al robot TANK")
         self.r_log.addItem("Para habilitar los botones de control para su movimiento debe de conectar primero el respectivo dispositivo Bluetooth del robot")
+        self.r_log.addItem("El archivo de registro se encuentra en la carpeta de archivos en el proyecto:")
+        self.r_log.addItem("control_tank/server/archivos/log.xml")
         self.r_log.addItem("°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°")
         self.r_log.addItem(" ")
 
     def set_conectar_robot_bt_text(self, text):
         self.conectar_robot_bt.setText(text)
 
-    def update_robot_status(self, is_connected):
+    def update_botones_status(self, is_connected):
         self.on_off_motor.setEnabled(is_connected)
         self.btn_avanzar.setEnabled(is_connected)
         self.btn_retroceder.setEnabled(is_connected)
