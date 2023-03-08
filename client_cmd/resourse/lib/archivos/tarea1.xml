@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<logs>
+    <log date="2023-02-23">
+        <user>local</user> 
+        <connect>11:20:30</connect>
+        <actions>
+            <bluetooth action="on">activar bluetooth</activate>
+            <motores action="on">activar motores</activate>
+            <move duration="0.73">mover adelante</move>
+            <move duration="0.53">mover derecha</move>
+            <move duration="0.43">mover adelante</move>
+            <move duration="0.53">mover derecha</move>
+            <move duration="1">mover atras</move>
+            <move duration="3">mover izquierda</move>
+            <move duration="3">mover derecha</move>
+            <move duration="3">detener</move>
+            <motores action="off">desactivar motores</activate>
+            <bluetooth action="off">desactivar bluetooth</activate>
+        </actions>
+        <disconnect>11:21:02</disconnect>
+    </log>
+</logs>
+
+<!-- 
+<?xml version="1.0"?>
+<logs>
+    <log date="2023-02-23">
+        <user>local</user> 
+        <connect>11:20:30</connect>
+        <actions>
+            <bluetooth action="on">activar bluetooth</activate>
+            <motores action="on">activar motores</activate>
+            <move duration="3">detener</move>
+            <motores action="off">desactivar motores</activate>
+            <bluetooth action="off">desactivar bluetooth</activate>
+        </actions>
+        <disconnect>11:21:02</disconnect>
+    </log>
+    <log date="2023-02-23">
+        <user>remote</user> 
+        <connect>11:30:50</connect>
+        <actions>
+            <bluetooth action="on">activar bluetooth</activate>
+            <motores action="on">activar motores</activate>
+            <move duration="0.73">mover adelante</move>
+            <move duration="0.53">mover derecha</move>
+            <move duration="0.43">mover adelante</move>
+            <move duration="1">detenerse</move>
+            <motores action="off">desactivar motores</activate>
+            <bluetooth action="off">desactivar bluetooth</activate>
+        </actions>
+        <disconnect>11:50:02</disconnect>
+    </log>
+</logs>
+ -->
