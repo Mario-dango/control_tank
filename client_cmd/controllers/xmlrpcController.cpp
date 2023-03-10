@@ -143,13 +143,20 @@ bool XmlrpcController::detenerMovimiento(){
 }
 ///////////////////// Definir cómo pasar la ruta del archivo.xml
 bool XmlrpcController::solicitarArchivoRegistro(){
-  const char* metodo;
-  metodo = "solicitarXml";
-  bool exito = this->execute(metodo, data, resultado);  
-  if (exito){
-    return true;
-  }
-  else{
+  try{
+    const char* metodo;
+    metodo = "solicitarXml";
+    bool exito = this->execute(metodo, this->data, this->resultado);  
+    if (exito){
+      consola.imprimirEnConsola("exito en la llamda XML");
+      return true;
+    }
+    else{
+      return false;
+    }
+  }catch(XmlRpc::XmlRpcException& e) {
+    std::cerr << "Error en la llamada a XML-RPC: " <<  std::endl;
+    std::cerr << "Código de error: " << e.getCode() << std::endl;
     return false;
-  }
+}
 }

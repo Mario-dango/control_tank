@@ -18,21 +18,17 @@ class ArchivoModel : public pugi::xml_document
         // Creamos un objeto XML vacío
         xml_document doc;
         // Añadimos el elemento raíz del documento
-        xml_node root;
+        xml_node logs;
         xml_node log;
-        xml_node user;
-        xml_node connect;
-        xml_node actions;
-        xml_node move;
-        xml_node activate;
-        xml_node desactivate;
-        xml_node disconnect;
+        xml_node usuarios;
+        xml_node conectado;
+        xml_node acciones;
+        xml_node accion;
+        xml_node desconectado;
 
         const char* nombreArchivoXml;
     public:
         ArchivoModel(const char* nombreArchivo);
-        ArchivoModel();
-        
         ~ArchivoModel();
         // // char* nombre;
         // bool crearArchivoXml();

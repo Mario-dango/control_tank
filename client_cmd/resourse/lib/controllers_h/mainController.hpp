@@ -8,7 +8,6 @@ class MainController {
 public:
     //  Definir constrictor
     MainController(const char* host, int port);
-    MainController();
     // MainController(const char* nombre, const char* host, int port);
     ~MainController();
     //  Inicia el controlador principal del programa.
@@ -19,18 +18,18 @@ public:
     const char* setIpServidor(const char* host);
     int getPuerto();
     const char* getIpServidor();
-
-private:
-    //  Dirección del servidor XmlRpc.
-    const char* ipServidor;
-    //  Puerto del servidor XmlRpc.
-    int puerto;
     //  Composición Objeto de visualización de datos.
     CmdVista objetoConsola;
     //  Composición Objeto controlador de archivos.
     ArchivoController *controladorArchivo;
     //  Composición Objeto controlador de conexión XmlRpc cliente
     XmlrpcController controladorXmlRpc;
+
+private:
+    //  Dirección del servidor XmlRpc.
+    const char* ipServidor;
+    //  Puerto del servidor XmlRpc.
+    int puerto;
 };
 
 #endif // MAINCONTROLLER_HPP

@@ -118,7 +118,7 @@ void MainController::run() {
                 if (resultado){
                     objetoConsola.imprimirEnConsola("\nSe envió exitosamente el comando.\n");
                 } else {
-                    objetoConsola.imprimirEnConsola("\nHubo un error al intentar enviar el comando                                                                                      .\n");
+                    objetoConsola.imprimirEnConsola("\nHubo un error al intentar enviar el comando.\n");
                 }
                 break;
             case 10:
@@ -128,7 +128,8 @@ void MainController::run() {
                 resultado = controladorXmlRpc.solicitarArchivoRegistro();
                 if (resultado){
                     objetoConsola.imprimirEnConsola("\nSe envió exitosamente el comando.\n");
-                    bool exito = controladorArchivo->guardarArchivoXml("control_tank/client_cmd/resourse/lib/archivos/log.xml", controladorXmlRpc.resultado);
+                    string contenido = controladorXmlRpc.resultado.toXml();
+                    bool exito = controladorArchivo->guardarArchivoXml("control_tank/client_cmd/resourse/lib/archivos/log.xml", contenido);
                     if (exito) {
                         objetoConsola.imprimirEnConsola("\nSe guardo el archivo de registro exitosamente.\n");
                     } else {

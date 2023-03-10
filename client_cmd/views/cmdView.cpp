@@ -33,20 +33,20 @@ formato normal de la consola.
 */
 
     opcionesConAyuda = {
-                "[1]. \033[4mActivar Bluetooth\033[0m \n └───> Se intentará activar la comunicación bluetooth al robot móvil del lado del servidor.",
-                "[2]. \033[4mDesactivar Bluetooth\033[0m \n └───> Se intentará desactivar la comunicación bluetooth al robot móvil del lado del servidor.",
-                "[3]. \033[4mActivar Motores\033[0m \n └───> Se intentará activar ambos motores del robot móvil del lado del servidor.",
-                "[4]. \033[4mDesactivar Motores\033[0m \n └───> Se intentará desactivar ambos motores del robot móvil del lado del servidor.",
-                "[5]. \033[4mMover adelante\033[0m \n └───> Se intentará enviar el comando para que el robot móvil del lado del servidor comience a AVANZAR hasta nuevo comando.",
-                "[6]. \033[4mMover atrás\033[0m \n └───> Se intentará enviar el comando para que el robot móvil del lado del servidor comience a RETROCEDER hasta nuevo comando.",
-                "[7]. \033[4mMover derecha\033[0m \n └───> Se intentará enviar el comando para que el robot móvil del lado del servidor comience a GIRAR A LA DERECHA hasta nuevo comando.",
-                "[8]. \033[4mMover izquierda\033[0m \n └───> Se intentará enviar el comando para que el robot móvil del lado del servidor comience a GIRAR A LA IZQUIERDA hasta nuevo comando.",
-                "[9]. \033[4mDetener movimiento\033[0m \n └───> Se intentará enviar el comando para que el robot móvil del lado del servidor DETENGA SU MOVIMIENTO hasta nuevo comando.\n",
+                "[1]. \033[4mActivar Bluetooth\033[0m \n └───> Se procede a activar la comunicación bluetooth al robot móvil del lado del servidor.",
+                "[2]. \033[4mDesactivar Bluetooth\033[0m \n └───> Se procede a desactivar la comunicación bluetooth al robot móvil del lado del servidor.",
+                "[3]. \033[4mActivar Motores\033[0m \n └───> Se procede a activar ambos motores del robot móvil del lado del servidor.",
+                "[4]. \033[4mDesactivar Motores\033[0m \n └───> Se procede a desactivar ambos motores del robot móvil del lado del servidor.",
+                "[5]. \033[4mMover adelante\033[0m \n └───> Se procede a enviar el comando para que el robot móvil del lado del servidor comience a AVANZAR hasta nuevo comando.",
+                "[6]. \033[4mMover atrás\033[0m \n └───> Se procede a enviar el comando para que el robot móvil del lado del servidor comience a RETROCEDER hasta nuevo comando.",
+                "[7]. \033[4mMover derecha\033[0m \n └───> Se procede a enviar el comando para que el robot móvil del lado del servidor comience a GIRAR A LA DERECHA hasta nuevo comando.",
+                "[8]. \033[4mMover izquierda\033[0m \n └───> Se procede a enviar el comando para que el robot móvil del lado del servidor comience a GIRAR A LA IZQUIERDA hasta nuevo comando.",
+                "[9]. \033[4mDetener movimiento\033[0m \n └───> Se procede a enviar el comando para que el robot móvil del lado del servidor DETENGA SU MOVIMIENTO hasta nuevo comando.\n",
                 "[10]. \033[4mMostrar menú nuevamente\033[0m \n  └───> Se imprimirá nuevamente el menú de opciones del lado del cliente.",
-                "[11]. \033[4mSolicitar registro archivo.xml\033[0m \n  └───> Se intentará pedir del lado del servidor un archivo de formato XML con todas las acciones realizadas por los diferentes usuarios que han usado al robot móvil.\n\tEl mismo será guardado en la carpeta \033[3mresourse/\033[0m con el nombre de \033[3mregistro.xml\033[0m.",
+                "[11]. \033[4mSolicitar registro archivo.xml\033[0m \n  └───> Se procede a pedir del lado del servidor un archivo de formato XML con todas las acciones realizadas por los diferentes usuarios que han usado al robot móvil.\n\tEl mismo será guardado en la carpeta \033[3marchivos/\033[0m con el nombre de \033[3mlog.xml\033[0m.",
                 "[12]. \033[4mAyuda de comandos\033[0m \n  └───> VISTA ACTUAL",
-                "[13]. \033[4mLimpiar la consola\033[0m \n  └───> Se procede a limpiar la pantalla para no haya tanta información inecesaria.",
-                "[14]. \033[4mVisualizar datos de conexión XML-RPC\033[0m \n └───> Se procede a mostrar los datos actuales con los que se deberá conectar el cliente XmlRpc (datos del servidor XmlRpc).",
+                "[13]. \033[4mLimpiar la consola\033[0m \n  └───> Se procede a limpiar la pantalla para una mejor claridad en la visualización de los datos.",
+                "[14]. \033[4mVisualizar datos de conexión XML-RPC\033[0m \n └───> Se procede a mostrar los datos actuales con los que se conecta el cliente XmlRpc (datos del servidor XmlRpc).",
                 "[15]. \033[4mCambiar datos de conexión XML-RPC\033[0m \n └───> Se procede a cambiar los datos con los que se conecta el cliente XmlRpc al servidor XmlRpc.\n\tPara ello se requiere ingreso de la nueva dirección IP del host y del puerto de conexión referentes al servidor XmlRpc.",
                 "[0]. \033[4mSalir\033[0m \n └───> Se procede a cerrar la aplicación del cliente."
                 };

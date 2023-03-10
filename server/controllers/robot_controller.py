@@ -20,29 +20,38 @@ class RobotControllerOptimizado(QObject):
 
     def conectarBluetooth(self):
         print(self.addressBT)
-        if self.addressBT != "":
-            info = "Se presionó el botón de conectar/desconectar Serial Bluetooth."
-            print(info)
-            self.view.add_rlog(info)
-            if not self.robot_tank.estado_bt:
-                self.robot_tank.conectar_bluetooth(self.addressBT)
-                self.startTime = time()
-            else:
-                self.robot_tank.estado_bt = False
-                self.robot_tank.bluetooth.disconnect()
+        try:
+            if self.addressBT != "":
+                info = "Se presionó el botón de conectar/desconectar Serial Bluetooth."
+                print(info)
+                self.view.add_rlog(info)
+                if not self.robot_tank.estado_bt:
+                    self.robot_tank.conectar_bluetooth(self.addressBT)
+                    self.startTime = time()
+                else:
+                    self.robot_tank.estado_bt = False
+                    self.robot_tank.bluetooth.disconnect()
+        except TypeError as e:
+            print("Se produjo un error al intentar conectar al bluetooth: {}".format(e))            
+            return False
 
     def habilitar_motores(self, auto=False): 
         print(self.view.on_off_motor.isChecked()) 
-        if not auto      :
-            if self.view.on_off_motor.isChecked():
-                self.robot_tank.cambiarEstadoDeMotores(True)
+        try:
+            if not auto      :
+                if self.view.on_off_motor.isChecked():
+                    self.robot_tank.cambiarEstadoDeMotores(True)
+                else:
+                    self.robot_tank.cambiarEstadoDeMotores(False)
             else:
-                self.robot_tank.cambiarEstadoDeMotores(False)
-        else:
-            if not self.robot_tank.motoresActivados:
-                self.robot_tank.cambiarEstadoDeMotores(True)
-            else:
-                self.robot_tank.cambiarEstadoDeMotores(False)
+                if not self.robot_tank.motoresActivados:
+                    self.robot_tank.cambiarEstadoDeMotores(True)
+                else:
+                    self.robot_tank.cambiarEstadoDeMotores(False)
+            return True
+        except TypeError as e:
+            print("Se produjo un error al intentar habilitar motores: {}".format(e))
+            return False
             
     def mover(self, direccion):
         if self.verificarHabilitacionDeMovimiento():

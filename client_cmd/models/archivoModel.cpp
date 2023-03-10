@@ -1,15 +1,13 @@
 #include "/home/bawy/Plantillas/git_poo/control_tank/client_cmd/resourse/lib/models_h/archivoModel.hpp"
 #include <iostream>
 
-ArchivoModel::ArchivoModel(){}
-
-
 ArchivoModel::ArchivoModel(const char* nombreArchivo) {
     nombreArchivoXml = nombreArchivo;
 }
 
 ArchivoModel::~ArchivoModel() {
 }
+
 bool ArchivoModel::leerArchivoXml(const char* nombreArchivo){
     // Cargamos el archivo XML
     // doc.load_file("aa");

@@ -5,9 +5,6 @@ class ArchivoController:
     def __init__(self):
         self.modelo = ArchivoModel()
 
-    def agregar_datos_generales(self, tipo, nombre, autor=None):
-        self.modelo.agregar_datos_generales(tipo, nombre, autor)
-
     def agregar_accion(self, accion, tipo, parametros, texto):
         if accion == "bluetooth":
             pass    # lógica de bluetooth
@@ -71,6 +68,6 @@ class ArchivoController:
                 registros[objetos] = "[{}] ".format(objetos) + registros[objetos]
         return registros
 
-    def leerBinaryXml (self, archivoXml):
-        return self.modelo.enviarXml(archivoXml=archivoXml)
+    def leerBinaryXml(self, archivoXml):
+        return self.modelo.enviarXml(archivoXml)
 

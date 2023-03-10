@@ -3,18 +3,22 @@
 # -*- coding: utf-8 -*-
 
 from xmlrpc.server import SimpleXMLRPCServer
-import xmlrpc.server
 from threading import Thread
 from controllers.archivo_controller import ArchivoController
 import os
 import signal
 import socket
 
+import subprocess
+
+
+
+
 class XmlRpcServidorOptimizado(object):
     def __init__(self, RobotController, port=8891, max_attempts=10):
         self.puerto_usado = port
         self.host_apuntado = "127.0.0.1"
-        self.controladorArchivos = ArchivoController
+        self.controladorArchivos = ArchivoController()
         self.robotController = RobotController
         self.server = None
         self.max_attempts = max_attempts
@@ -46,7 +50,7 @@ class XmlRpcServidorOptimizado(object):
         self.server.register_function(self.do_izquierda, 'izquierda')
         self.server.register_function(self.do_detenerse, 'detenerse')
 
-        self.server.register_function(self.do_solicitarXml, 'solicitarXml')
+        self.server.register_function(self.do_enviarXml, 'solicitarXml')
 
         # Iniciar el servidor en un hilo
         self.thread = Thread(target=self.run_server)
@@ -63,12 +67,24 @@ class XmlRpcServidorOptimizado(object):
         if self.server:
             self.server.shutdown()            
             # Obtener el ID del proceso del servidor
-            pid = self.server.socket.getsockname()[1]
+            # pid = self.server.socket.getsockname()[1]
             # Matar el proceso del servidor
             try:
-                os.kill(pid, signal.SIGTERM)
-            except ProcessLookupError as error:
-                print("Ha ocurrido un error al intentar matar el servidor (PID={}): {}".format(pid, error))
+                process = subprocess.Popen(["lsof", "-i", "tcp:{}".format(self.puerto_usado)], stdout=subprocess.PIPE)
+                output, error = process.communicate()
+                if output:
+                    pid = output.decode().split()[10]
+                    print(pid)
+                    try:
+                        os.kill(pid, signal.SIGTERM)
+                    except ProcessLookupError as error:
+                        print("Ha ocurrido un error al intentar matar el servidor (PID={}): {}".format(pid, error))
+                    print(f"PID del proceso en el puerto {self.puerto_usado}: {pid}")
+                else:
+                    print(f"No se encontró ningún proceso en el puerto {self.puerto_usado}")
+            except Exception as e:
+                print("Hubo un error: {}".format(e))
+                
             
         # Esperar a que el hilo termine
         if self.thread:
@@ -95,11 +111,14 @@ class XmlRpcServidorOptimizado(object):
     def do_detenerse(self):
         return self.robotController.detener_movimiento()
 
-    def do_solicitarXml(self):
-        return self.controladorArchivos.solicitarXml()
-
     def do_enviarXml(self):
-        binaryXml = self.controladorArchivos.leerBinaryXml("control_tank/server/archivos/log.xml")
-        return xmlrpc.client.Binary(binaryXml.encode())
+        # return True
+        try:
+            path = "control_tank/server/archivos/log.xml"
+            binaryXml = self.controladorArchivos.leerBinaryXml(path)
+            return binaryXml       
+        except Exception as e:
+            print("Hubo un error: {}".format(e))
+            return False
     
 

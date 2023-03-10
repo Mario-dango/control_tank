@@ -4,11 +4,8 @@ from .robot_controller import RobotControllerOptimizado
 from .xmlrpcServer_controller import XmlRpcServidorOptimizado
 from .xmlrpcServer_controller import ArchivoController
 from PyQt5.QtCore import *
-# import serial.tools.list_ports
 import bluetooth
-# import bluetooth
 
-# nearby_devices = bluetooth.discover_devices()
 class MainController(QObject):
     def __init__(self, mainView):
         super().__init__()
@@ -29,13 +26,6 @@ class MainController(QObject):
                 print(type(device))
                 name = bluetooth.lookup_name(device)
                 self.view.bt_list.addItem(f'{name} ({device})')
-        # try:
-        #     self.ports = serial.tools.list_ports.comports()
-        #     print(self.ports)
-        #     print("\n")
-        #     for port in sorted(self.ports):
-        #         self.view.bt_list.addItem(port)
-        #         print(port)
         except Exception as e:
             print("Ha ocurrido un Error: ", e)
 
@@ -47,16 +37,16 @@ class MainController(QObject):
         # Key press event
         self.view.keyPressEvent = self.teclaPresionada
         # Eventos de botones
-        self.view.on_off_bt.clicked.connect(self.robotController.conectarBluetooth)
         self.view.on_off_bt.clicked.connect(self.alternarTextoBotonBluetooth)
+        # self.view.on_off_bt.clicked.connect(self.robotController.conectarBluetooth)
 
         self.view.on_off_server.clicked.connect(self.iniciar_servidor_xmlrpc)
         
         self.view.on_off_motor.clicked.connect(self.log_habilitarMotores)
         self.view.on_off_motor.clicked.connect(self.robotController.habilitar_motores)
         
-        self.view.btn_avanzar.clicked.connect(self.log_moverAdelante)
         self.view.btn_avanzar.clicked.connect(self.robotController.mover_adelante)
+        self.view.btn_avanzar.clicked.connect(self.log_moverAdelante)
         
         self.view.btn_retroceder.clicked.connect(self.robotController.mover_atras)
         self.view.btn_retroceder.clicked.connect(self.log_moverAtras)
@@ -121,7 +111,6 @@ class MainController(QObject):
             self.view.add_rlog(" ")
             print(error)
                 
-
     #Eventos para controlar los movimientos del robot con le pad númerico del teclado
     def teclaPresionada(self, event):
         self.teclado_ctrl = self.robotController.robot_tank.estado_bt
@@ -156,7 +145,7 @@ class MainController(QObject):
     def alternarTextoBotonBluetooth(self):
         self.robotController.addressBT = self.view.bt_list.currentText()
         print("El puerto tomado es: {}".format(self.robotController.addressBT))
-        # print("Impresión de puerto {} en el evento showWindow en mainController".format(self.robotController.portBt))
+        self.robotController.conectarBluetooth()
         if self.robotController.robot_tank.estado_bt:
             self.view.on_off_bt.setText("CONECTADO!")
             self.view.update_botones_status(True)

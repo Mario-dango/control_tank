@@ -109,6 +109,9 @@ class ArchivoModel:
             return listaDatos
     
     def enviarXml (self, archivoXml):        
-        with open(archivoXml, 'r') as f:
-            activities = f.read()
-        return activities.encode()
+        try:
+            with open(archivoXml, 'r') as f:
+                activities = f.read()
+            return activities
+        except Exception as e:
+            print("Hubo un error al abrir archivo: {}".format(e))
