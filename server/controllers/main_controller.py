@@ -11,7 +11,7 @@ class MainController(QObject):
         super().__init__()
         self.view = mainView
         self.robotController = RobotControllerOptimizado(mainView)
-        self.controladorDeArchivos = ArchivoController()
+        self.controladorDeArchivos = ArchivoController(fromMain=True)
         self.estadoServidorXmlrpc = False
         self.devices = bluetooth.discover_devices()
         self.archivo = None
@@ -43,7 +43,6 @@ class MainController(QObject):
         self.view.on_off_server.clicked.connect(self.iniciar_servidor_xmlrpc)
         
         self.view.on_off_motor.clicked.connect(self.log_habilitarMotores)
-        self.view.on_off_motor.clicked.connect(self.robotController.habilitar_motores)
         
         self.view.btn_avanzar.clicked.connect(self.robotController.mover_adelante)
         self.view.btn_avanzar.clicked.connect(self.log_moverAdelante)
@@ -72,10 +71,11 @@ class MainController(QObject):
         self.view.closeEvent = self.on_window_close
 
     def on_window_close(self, event):
+        self.robotController.archivo.guardar_registro()
         # Detener el movimiento del robot
         if self.robotController.robot_tank.estado_bt:                                        
-            self.robotController.detener_movimiento()   
-            self.robotController.habilitar_motores()
+            self.robotController.detener_movimiento(noGuardar=True)   
+            self.robotController.habilitar_motores(exit=True)
             self.robotController.conectarBluetooth()
                 
         if self.estadoServidorXmlrpc:
@@ -164,8 +164,10 @@ class MainController(QObject):
     def log_habilitarMotores(self):
         self.view.add_rlog("Se presionó el radioBotón para cambiar estado de motores.")
         if self.view.on_off_motor.isChecked():
+            self.robotController.habilitar_motores()
             self.view.add_rlog("Se procederá a Activar los motores del Robot.")
         else:    
+            self.robotController.habilitar_motores()
             self.view.add_rlog("Se procederá a Desactivar los motores del Robot.")
         self.view.add_rlog(" ")
 
@@ -212,7 +214,7 @@ class MainController(QObject):
         elif self.flagRunXml is not False:
             opcion = int(self.archivo)
             opcionFecha = self.opcionesRegistro[opcion].split("\t")
-            logFecha = opcionFecha[0].split(" ")[-1].strip()
+            logFecha = opcionFecha[0].split(": ")[1].strip()
             self.view.add_rlog("\nLOG_" + logFecha)
             self.flagRunXml = False            
             exito = self.robotController.ejecutarXml(self.archivoXml, logFecha)
@@ -234,7 +236,3 @@ class MainController(QObject):
         else:
             for texto in cadenaArchivo:
                 self.view.add_rlog(texto)
-# if __name__ == '__main__':
-#     app = QApplication([])
-#     main_controller = MainController()
-#     app.exec_()

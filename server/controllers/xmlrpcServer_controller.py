@@ -114,8 +114,7 @@ class XmlRpcServidorOptimizado(object):
     def do_enviarXml(self):
         # return True
         try:
-            path = "control_tank/server/archivos/log.xml"
-            binaryXml = self.controladorArchivos.leerBinaryXml(path)
+            binaryXml = self.controladorArchivos.leerBinaryXml()
             return binaryXml       
         except Exception as e:
             print("Hubo un error: {}".format(e))

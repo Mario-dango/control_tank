@@ -15,7 +15,7 @@ class MainView(QMainWindow):
         #Iniciar el objeto QMainWindow
         QMainWindow.__init__(self)
         # cargar la interfaz de usuario desde el archivo ui generado por Qt Designer
-        uic.loadUi('control_tank/server/views/ui/dashboard.ui', self)
+        uic.loadUi('views/ui/dashboard.ui', self)
         self.setWindowTitle("Interfaz de control para Tan-k")
         self.setMinimumSize(1000,600)
         self.setMaximumSize(1001,701)
@@ -42,7 +42,7 @@ class MainView(QMainWindow):
     def showEvent(self, event):
         self.autor.setText("Autor: Mario Papetti Funes \nInstagram: Mario.spf")
         self.label_2.setText("Registro de acciones realizadas:")
-        self.Imagen.setPixmap(QPixmap('control_tank/server/resourse/pictures/robot_control.png'))
+        self.Imagen.setPixmap(QPixmap('resourse/pictures/robot_control.png'))
         # self.Imagen.setPixmap(QPixmap("../resourses/pictures/reobot_control.png"))
         self.t_botones.setText("Botones para controlar el movimiento del robot.")
 
@@ -51,7 +51,7 @@ class MainView(QMainWindow):
         self.r_log.addItem("Bienvenido a la interfaz para controlar al robot TANK")
         self.r_log.addItem("Para habilitar los botones de control para su movimiento debe de conectar primero el respectivo dispositivo Bluetooth del robot")
         self.r_log.addItem("El archivo de registro se encuentra en la carpeta de archivos en el proyecto:")
-        self.r_log.addItem("control_tank/server/archivos/log.xml")
+        self.r_log.addItem("archivos/log.xml")
         self.r_log.addItem("°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°°°\_/°°")
         self.r_log.addItem(" ")
 

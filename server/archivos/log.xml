@@ -1,30 +1,56 @@
-<?xml version="1.0"?>
 <logs>
-    <log date="2023-02-22">
-        <usuario>local</usuario> 
-        <conectado>11:20:30</conectado>
-        <acciones>
-            <accion type="bluetooth" action="on">activar bluetooth</accion>
-            <accion type="motores" action="on">activar motores</accion>
-            <accion type="movimiento" duration="3">detenerse</accion>
-            <accion type="motores" action="off">desactivar motores</accion>
-            <accion type="bluetooth" action="off">desactivar bluetooth</accion>
-        </acciones>
-        <desconectado>11:21:02</desconectado>
-    </log>
-    <log date="2023-02-23">
-        <usuario>remote</usuario> 
-        <conectado>11:30:50</conectado>
-        <acciones>
-            <accion type="bluetooth" action="on">activar bluetooth</accion>
-            <accion type="motores" action="on">activar motores</accion>
-            <accion type="movimiento" duration="0.73">movimiento adelante</accion>
-            <accion type="movimiento" duration="0.53">movimiento derecha</accion>
-            <accion type="movimiento" duration="0.43">movimiento adelante</accion>
-            <accion type="movimiento" duration="1">detenerse</accion>
-            <accion type="motores" action="off">desactivar motores</accion>
-            <accion type="bluetooth" action="off">desactivar bluetooth</accion>
-        </acciones>
-        <desconectado>11:50:02</desconectado>
-    </log>
+  <log date="11/03/2023 - 01:36:21">
+    <usuario>Local</usuario>
+    <conectado>01:36:21</conectado>
+    <acciones>
+      <accion type="bluetooth" action="on">Activar conexion bluetooth</accion>
+      <accion type="motores" action="on">Activar los motores</accion>
+      <accion type="movimiento" duration="2.307">Girar a la derecha</accion>
+      <accion type="movimiento" duration="0.333">Girar a la izquierda</accion>
+      <accion type="movimiento" duration="0.315">Girar a la derecha</accion>
+      <accion type="movimiento" duration="0.375">Girar a la izquierda</accion>
+      <accion type="movimiento" duration="0.970">Detener el robot</accion>
+      <accion type="movimiento" duration="0.357">Girar a la derecha</accion>
+      <accion type="movimiento" duration="0.340">Girar a la izquierda</accion>
+      <accion type="movimiento" duration="0.374">Girar a la derecha</accion>
+      <accion type="movimiento" duration="0.683">Girar a la izquierda</accion>
+      <accion type="movimiento" duration="0.753">Detener el robot</accion>
+      <accion type="movimiento" duration="0.349">Girar a la derecha</accion>
+      <accion type="movimiento" duration="0.377">Girar a la izquierda</accion>
+      <accion type="movimiento" duration="0.398">Girar a la derecha</accion>
+      <accion type="movimiento" duration="0.292">Girar a la izquierda</accion>
+      <accion type="movimiento" duration="1.373">Detener el robot</accion>
+      <accion type="movimiento" duration="0.367">Movimiento hacia adelante</accion>
+      <accion type="movimiento" duration="0.330">Movimiento hacia atras</accion>
+      <accion type="movimiento" duration="0.386">Movimiento hacia adelante</accion>
+      <accion type="movimiento" duration="0.310">Movimiento hacia atras</accion>
+      <accion type="movimiento" duration="0.307">Movimiento hacia adelante</accion>
+      <accion type="movimiento" duration="0.343">Movimiento hacia atras</accion>
+      <accion type="movimiento" duration="0.286">Movimiento hacia adelante</accion>
+      <accion type="movimiento" duration="0.400">Movimiento hacia atras</accion>
+      <accion type="movimiento" duration="1.505">Movimiento hacia adelante</accion>
+      <accion type="motores" action="off">Desctivar los motores</accion>
+      <accion type="bluetooth" action="off">Desactivar conexion bluetooth</accion>
+    </acciones>
+    <desconectado>01:37:07</desconectado>
+  </log>
+  <log date="11/03/2023 - 01:37:26">
+    <usuario>Local</usuario>
+    <conectado>01:37:26</conectado>
+    <acciones>
+      <accion type="bluetooth" action="on">Activar conexion bluetooth</accion>
+      <accion type="motores" action="on">Activar los motores</accion>
+      <accion type="motores" action="off">Desctivar los motores</accion>
+      <accion type="motores" action="on">Activar los motores</accion>
+      <accion type="movimiento" duration="16.55">Movimiento hacia adelante</accion>
+      <accion type="movimiento" duration="1.202">Movimiento hacia adelante</accion>
+      <accion type="movimiento" duration="1.187">Girar a la izquierda</accion>
+      <accion type="movimiento" duration="1.254">Detener el robot</accion>
+      <accion type="movimiento" duration="1.315">Girar a la derecha</accion>
+      <accion type="movimiento" duration="0.568">Girar a la izquierda</accion>
+      <accion type="motores" action="off">Desctivar los motores</accion>
+      <accion type="bluetooth" action="off">Desactivar conexion bluetooth</accion>
+    </acciones>
+    <desconectado>01:38:35</desconectado>
+  </log>
 </logs>

@@ -14,12 +14,16 @@ class RobotControllerOptimizado(QObject):
         # self.portBt = self.view.bt_list.currentText()
         self.addressBT = ""
         self.tiempoTotal = 0
+        self.texto = ""
         self.startTime = 0
         self.endTime = 0
         self.acciones = []
 
-    def conectarBluetooth(self):
+    def conectarBluetooth(self, auto=False):
+        self.addressBT = self.view.bt_list.currentText()
         print(self.addressBT)
+        texto = ""
+        estado = ""
         try:
             if self.addressBT != "":
                 info = "Se presionó el botón de conectar/desconectar Serial Bluetooth."
@@ -27,22 +31,36 @@ class RobotControllerOptimizado(QObject):
                 self.view.add_rlog(info)
                 if not self.robot_tank.estado_bt:
                     self.robot_tank.conectar_bluetooth(self.addressBT)
-                    self.startTime = time()
+                    estado = "on"
+                    texto = "Activar conexion bluetooth"
                 else:
                     self.robot_tank.estado_bt = False
                     self.robot_tank.bluetooth.disconnect()
+                    estado = "off"
+                    texto = "Desactivar conexion bluetooth"
         except TypeError as e:
             print("Se produjo un error al intentar conectar al bluetooth: {}".format(e))            
             return False
+        
+        if not auto:
+            self.archivo.agregar_accion(accion="action", parametros=estado, tipo="bluetooth" ,texto=texto)
+            
 
-    def habilitar_motores(self, auto=False): 
+    def habilitar_motores(self, auto=False, exit=False): 
         print(self.view.on_off_motor.isChecked()) 
+        texto = ""
+        estado = ""
         try:
-            if not auto      :
-                if self.view.on_off_motor.isChecked():
+            if not auto:
+                if self.view.on_off_motor.isChecked() and not exit:
+                    estado = "on"
+                    texto = "Activar los motores"
                     self.robot_tank.cambiarEstadoDeMotores(True)
                 else:
-                    self.robot_tank.cambiarEstadoDeMotores(False)
+                    estado = "off"
+                    texto = "Desctivar los motores"
+                    self.robot_tank.cambiarEstadoDeMotores(False)                    
+                self.archivo.agregar_accion(accion="action", parametros=estado, tipo="motores" ,texto=texto)
             else:
                 if not self.robot_tank.motoresActivados:
                     self.robot_tank.cambiarEstadoDeMotores(True)
@@ -53,47 +71,55 @@ class RobotControllerOptimizado(QObject):
             print("Se produjo un error al intentar habilitar motores: {}".format(e))
             return False
             
-    def mover(self, direccion):
+    def mover(self, direccion, auto=False):
         if self.verificarHabilitacionDeMovimiento():
-            try:
-                texto = ""
-                if direccion == "adelante":
-                    self.endTime = time()
-                    self.robot_tank.mover_adelante()
-                    self.tiempoTotal = (self.endTime - self.startTime)
+            if not auto:
+                try:
+                    if self.startTime > 0:
+                        self.endTime = time()
+                        self.tiempoTotal = (self.endTime - self.startTime)
+                        self.archivo.agregar_accion(accion="duration", parametros=self.tiempoTotal, tipo="movimiento" ,texto=self.texto)
+                    if direccion == "adelante":
+                        self.robot_tank.mover_adelante()
+                        self.texto = "Movimiento hacia adelante"
+                    elif direccion == "atras":
+                        self.robot_tank.mover_atras()
+                        self.texto = "Movimiento hacia atras"
+                    elif direccion == "derecha":
+                        self.robot_tank.mover_derecha()
+                        self.texto = "Girar a la derecha"
+                    elif direccion == "izquierda":
+                        self.robot_tank.mover_izquierda()
+                        self.texto = "Girar a la izquierda"
+                    elif direccion == "detener":
+                        self.robot_tank.detener_movimiento()
+                        self.texto = "Detener el robot"
                     self.startTime = time()
-                    texto = "Mover adelante"
-                elif direccion == "atras":
-                    self.endTime = time()
-                    self.robot_tank.mover_atras()
-                    self.tiempoTotal = (self.endTime - self.startTime)
-                    self.startTime = time()
-                    texto = "Mover adelante"
-                elif direccion == "derecha":
-                    self.endTime = time()
-                    self.robot_tank.mover_derecha()
-                    self.tiempoTotal = (self.endTime - self.startTime)
-                    self.startTime = time()
-                    texto = "Mover adelante"
-                elif direccion == "izquierda":
-                    self.endTime = time()
-                    self.robot_tank.mover_izquierda()
-                    self.tiempoTotal = (self.endTime - self.startTime)
-                    self.startTime = time()
-                    texto = "Mover adelante"
-                elif direccion == "detener":
-                    self.endTime = time()
-                    self.robot_tank.detener_movimiento()
-                    self.tiempoTotal = (self.endTime - self.startTime)
-                    self.startTime = time()
-                    texto = "Mover adelante"
-                self.archivo.agregar_accion(accion="accion", parametros=direccion, tipo= self.tiempoTotal,texto=texto)
-                return True
-            except TypeError as error:
-                info = f"Hubo un error en mover {direccion}, error: {error}"
-                print(info)
-                self.view.add_rlog(info)
-                return False
+                    return True
+                except TypeError as error:
+                    info = f"Hubo un error en mover {direccion}, error: {error}"
+                    print(info)
+                    self.view.add_rlog(info)
+                    return False
+            else:
+                try:
+                    if direccion == "adelante":
+                        self.robot_tank.mover_adelante()
+                    elif direccion == "atras":
+                        self.robot_tank.mover_atras()
+                    elif direccion == "derecha":
+                        self.robot_tank.mover_derecha()
+                    elif direccion == "izquierda":
+                        self.robot_tank.mover_izquierda()
+                    elif direccion == "detener":
+                        self.robot_tank.detener_movimiento()
+                    return True
+                except TypeError as error:
+                    info = f"Hubo un error en mover {direccion}, error: {error}"
+                    print(info)
+                    self.view.add_rlog(info)
+                    return False
+                
         else:
             print("Falló en la verificación de movimiento, no enviará comandos desde robotController a robot_bt.")
             return False
@@ -110,8 +136,8 @@ class RobotControllerOptimizado(QObject):
     def mover_izquierda(self):
         return self.mover("izquierda")
 
-    def detener_movimiento(self):
-        return self.mover("detener")
+    def detener_movimiento(self, noGuardar=False):
+        return self.mover("detener", auto=noGuardar)
 
     def verificarHabilitacionDeMovimiento(self):
         if not self.robot_tank.estado_bt:
@@ -140,11 +166,11 @@ class RobotControllerOptimizado(QObject):
                     if registro[accion + 1] == "on":
                         self.view.add_rlog("Ejecutar: {} con estado [{}]".format(registro[accion], registro[accion + 1]))
                         if not self.robot_tank.estado_bt:
-                            self.conectarBluetooth()
+                            self.conectarBluetooth(auto=True)
                             sleep(3)
                     elif registro[accion + 1] == "off":
                         self.view.add_rlog("Ejecutar: {} con estado [{}]".format(registro[accion], registro[accion + 1]))
-                        self.conectarBluetooth() # Verifica estado para desconectar
+                        self.conectarBluetooth(auto=True) # Verifica estado para desconectar
                         sleep(3)
                     else:
                         print("Error en acción de bluetooth")
@@ -163,19 +189,19 @@ class RobotControllerOptimizado(QObject):
                         print("Error en acción de motores")
                         
                 elif registro[accion] == "movimiento":
-                    if registro[accion - 1] == "movimiento adelante":
+                    if registro[accion - 1] == "Movimiento hacia adelante":
                         tipoMovimiento = "adelante"
                         duracion = float(registro[accion +1])
-                    elif registro[accion - 1] == "movimiento atras":
+                    elif registro[accion - 1] == "Movimiento hacia atras":
                         tipoMovimiento = "atras"
                         duracion = float(registro[accion +1])
-                    elif registro[accion - 1] == "movimiento derecha":
+                    elif registro[accion - 1] == "Girar a la derecha":
                         tipoMovimiento = "derecha"
                         duracion = float(registro[accion +1])
-                    elif registro[accion - 1] == "movimiento izquierda":
+                    elif registro[accion - 1] == "Girar a la izquierda":
                         tipoMovimiento = "izquierda"
                         duracion = float(registro[accion +1])
-                    elif registro[accion - 1] == "detenerse":
+                    elif registro[accion - 1] == "Detener el robot":
                         tipoMovimiento = "detener"
                         duracion = float(registro[accion +1])
                         
@@ -187,14 +213,5 @@ class RobotControllerOptimizado(QObject):
             return False
 
     def ejecutar_accion(self, movimiento, tiempo):
-        self.mover(movimiento)
+        self.mover(movimiento, True)
         sleep(tiempo)
-        # accion = registro['accion']
-        # parametros = registro['parametros']
-        # tiempo = registro['tiempo']
-        # tiempo_actual = datetime.now()
-        # tiempo_diferencia = (tiempo - tiempo_actual).total_seconds()
-        # if tiempo_diferencia > 0:
-        #     sleep(tiempo_diferencia)
-        # # Aquí se ejecuta la acción del robot con los parámetros correspondientes
-        # print(f"Ejecutando acción '{accion}' con parámetros '{parametros}'")

@@ -2,18 +2,17 @@ from models.archivo_model import ArchivoModel
 import re
 
 class ArchivoController:
-    def __init__(self):
-        self.modelo = ArchivoModel()
+    def __init__(self, fromMain = False):
+        self.modelo = ArchivoModel(archivoXml="archivos/log.xml", main=fromMain)
 
     def agregar_accion(self, accion, tipo, parametros, texto):
-        if accion == "bluetooth":
-            pass    # lógica de bluetooth
-        elif accion == "motores":
-            pass    # lógica de motores
-        elif accion == "mover":
-            pass    # lógica de movimiento
-        else:
-            pass    # Reporte de error
+        #   accio: representa si es "action" o "duration"
+        #   tipo: Representa si es "movimiento", "bluetooth" o "motores"
+        #   parametros: Respresentan los valores para el elemento accio
+        #   texto: Representa el contenido del elemento accion 
+        if type(parametros) == float:
+            strTime = str(round(parametros, 4))[:5]
+            parametros = strTime
         self.modelo.agregar_accion(accion, tipo, parametros, texto)
 
     def agregar_conection(self, estado, texto):
@@ -22,14 +21,14 @@ class ArchivoController:
     def agregar_usuario(self, user, tipo, parametro,):
         self.modelo.agregar_usuario(user, tipo, parametro)
 
-    def guardar_registro(self, archivo):
-        self.modelo.guardar_registro(archivo)
+    def guardar_registro(self):
+        self.modelo.guardar_registro()
         
     def leerXml(self, archivoXml, fecha="todas"):
         if fecha == "todas":
-            return self.modelo.leer_archivo(archivo = archivoXml)
+            return self.modelo.leer_archivo(otroXml= archivoXml)
         else:
-            lista = self.modelo.leer_archivo(archivo=archivoXml)
+            lista = self.modelo.leer_archivo(otroXml=archivoXml)
             fecha_inicial = fecha
             acciones = []
 
@@ -62,12 +61,12 @@ class ArchivoController:
             return acciones
      
     def registros(self, archivoXml):
-        registros = self.modelo.leerRegistro(archivo = archivoXml)
+        registros = self.modelo.leerRegistro(otroXml = archivoXml)
         if len(registros) != 0:
             for objetos in range(0,len(registros)):
                 registros[objetos] = "[{}] ".format(objetos) + registros[objetos]
         return registros
 
-    def leerBinaryXml(self, archivoXml):
-        return self.modelo.enviarXml(archivoXml)
+    def leerBinaryXml(self):
+        return self.modelo.enviarXml()
 
