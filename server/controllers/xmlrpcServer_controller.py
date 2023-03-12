@@ -90,31 +90,32 @@ class XmlRpcServidorOptimizado(object):
         if self.thread:
             self.thread.join()
 
-    def do_on_off_bt(self):
+    def do_on_off_bt(self, estado=None):
         return self.robotController.conectarBluetooth()
 
-    def do_on_off_mt(self):
-        return self.robotController.habilitar_motores()
+    def do_on_off_mt(self, estado):        
+        return self.robotController.habilitar_motores(estadoXml=estado)
 
-    def do_avanzar(self):
+    def do_avanzar(self, estado=None):
         return self.robotController.mover_adelante()
 
-    def do_retroceder(self):
+    def do_retroceder(self, estado=None):
         return self.robotController.mover_atras()
 
-    def do_derecha(self):
+    def do_derecha(self, estado=None):
         return self.robotController.mover_derecha()
 
-    def do_izquierda(self):
+    def do_izquierda(self, estado=None):
         return self.robotController.mover_izquierda()
 
-    def do_detenerse(self):
+    def do_detenerse(self, estado=None):
         return self.robotController.detener_movimiento()
 
-    def do_enviarXml(self):
+    def do_enviarXml(self, estado=None):
         # return True
         try:
             binaryXml = self.controladorArchivos.leerBinaryXml()
+            print(type(binaryXml))
             return binaryXml       
         except Exception as e:
             print("Hubo un error: {}".format(e))

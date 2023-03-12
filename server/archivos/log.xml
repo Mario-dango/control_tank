@@ -53,4 +53,98 @@
     </acciones>
     <desconectado>01:38:35</desconectado>
   </log>
+  <log date="11/03/2023 - 17:56:54">
+    <usuario>Local</usuario>
+    <conectado>17:56:54</conectado>
+    <acciones>
+      <accion type="bluetooth" action="on">Activar conexion bluetooth</accion>
+      <accion type="motores" action="off">Desctivar los motores</accion>
+      <accion type="motores" action="off">Desctivar los motores</accion>
+    </acciones>
+  </log>
+  <log date="11/03/2023 - 19:27:44">
+    <usuario>Local</usuario>
+    <conectado>19:27:44</conectado>
+    <acciones>
+      <accion type="motores" action="on">Activar los motores</accion>
+      <accion type="motores" action="off">Desctivar los motores</accion>
+      <accion type="motores" action="on">Activar los motores</accion>
+      <accion type="motores" action="off">Desctivar los motores</accion>
+    </acciones>
+  </log>
+  <log date="11/03/2023 - 19:40:36">
+    <usuario>Local</usuario>
+    <conectado>19:40:36</conectado>
+    <acciones>
+      <accion type="motores" action="on">Activar los motores</accion>
+      <accion type="movimiento" duration="32.87">Girar a la izquierda</accion>
+      <accion type="movimiento" duration="11.53">Detener el robot</accion>
+      <accion type="movimiento" duration="0.610">Movimiento hacia adelante</accion>
+      <accion type="motores" action="off">Desctivar los motores</accion>
+    </acciones>
+    <desconectado>19:44:53</desconectado>
+  </log>
+  <log date="11/03/2023 - 20:06:59">
+    <usuario>Local</usuario>
+    <conectado>20:06:59</conectado>
+    <acciones>
+      <accion type="motores" action="on">Activar los motores</accion>
+      <accion type="motores" action="off">Desctivar los motores</accion>
+      <accion type="motores" action="on">Activar los motores</accion>
+      <accion type="movimiento" duration="464.8">Detener el robot</accion>
+    </acciones>
+  </log>
+  <log date="11/03/2023 - 20:27:14">
+    <usuario>Local</usuario>
+    <conectado>20:27:14</conectado>
+    <acciones>
+      <accion type="motores" action="on">Activar los motores</accion>
+    </acciones>
+    <desconectado>20:34:56</desconectado>
+  </log>
+  <log date="11/03/2023 - 21:48:19">
+    <usuario>Local</usuario>
+    <conectado>21:48:19</conectado>
+    <acciones>
+      <accion type="motores" action="on">Activar los motores</accion>
+    </acciones>
+  </log>
+  <log date="11/03/2023 - 21:54:00">
+    <usuario>Local</usuario>
+    <conectado>21:54:00</conectado>
+    <acciones>
+      <accion type="motores" action="on">Activar los motores</accion>
+      <accion type="movimiento" duration="8.130">Girar a la izquierda</accion>
+      <accion type="movimiento" duration="2.597">Detener el robot</accion>
+      <accion type="movimiento" duration="3.632">Movimiento hacia adelante</accion>
+      <accion type="movimiento" duration="1.255">Detener el robot</accion>
+      <accion type="movimiento" duration="1.335">Girar a la izquierda</accion>
+      <accion type="movimiento" duration="0.935">Detener el robot</accion>
+      <accion type="movimiento" duration="3.384">Movimiento hacia adelante</accion>
+      <accion type="movimiento" duration="1.066">Detener el robot</accion>
+      <accion type="movimiento" duration="1.116">Movimiento hacia adelante</accion>
+      <accion type="movimiento" duration="1.535">Detener el robot</accion>
+      <accion type="movimiento" duration="0.714">Girar a la derecha</accion>
+      <accion type="movimiento" duration="0.876">Detener el robot</accion>
+      <accion type="movimiento" duration="1.677">Girar a la izquierda</accion>
+      <accion type="movimiento" duration="2.053">Detener el robot</accion>
+      <accion type="movimiento" duration="1.021">Movimiento hacia adelante</accion>
+      <accion type="movimiento" duration="1.634">Detener el robot</accion>
+      <accion type="movimiento" duration="0.987">Girar a la derecha</accion>
+      <accion type="movimiento" duration="447.5">Detener el robot</accion>
+      <accion type="movimiento" duration="0.985">Girar a la izquierda</accion>
+      <accion type="movimiento" duration="164.7">Detener el robot</accion>
+      <accion type="movimiento" duration="0.719">Girar a la derecha</accion>
+      <accion type="movimiento" duration="0.573">Girar a la izquierda</accion>
+      <accion type="movimiento" duration="366.1">Detener el robot</accion>
+      <accion type="movimiento" duration="1.046">Girar a la derecha</accion>
+      <accion type="movimiento" duration="1.747">Girar a la izquierda</accion>
+      <accion type="movimiento" duration="115.8">Detener el robot</accion>
+      <accion type="movimiento" duration="5.249">Girar a la derecha</accion>
+      <accion type="movimiento" duration="1.292">Detener el robot</accion>
+      <accion type="movimiento" duration="3.336">Girar a la izquierda</accion>
+      <accion type="motores" action="off">Desctivar los motores</accion>
+    </acciones>
+    <desconectado>00:23:49</desconectado>
+  </log>
 </logs>

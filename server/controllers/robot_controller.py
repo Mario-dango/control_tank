@@ -38,6 +38,7 @@ class RobotControllerOptimizado(QObject):
                     self.robot_tank.bluetooth.disconnect()
                     estado = "off"
                     texto = "Desactivar conexion bluetooth"
+                return True
         except TypeError as e:
             print("Se produjo un error al intentar conectar al bluetooth: {}".format(e))            
             return False
@@ -46,13 +47,15 @@ class RobotControllerOptimizado(QObject):
             self.archivo.agregar_accion(accion="action", parametros=estado, tipo="bluetooth" ,texto=texto)
             
 
-    def habilitar_motores(self, auto=False, exit=False): 
+    def habilitar_motores(self, auto=False, exit=False, estadoXml=None): 
         print(self.view.on_off_motor.isChecked()) 
         texto = ""
         estado = ""
         try:
             if not auto:
-                if self.view.on_off_motor.isChecked() and not exit:
+                if estadoXml == None:
+                    estadoXml = False
+                if self.view.on_off_motor.isChecked() and not exit or estadoXml:
                     estado = "on"
                     texto = "Activar los motores"
                     self.robot_tank.cambiarEstadoDeMotores(True)

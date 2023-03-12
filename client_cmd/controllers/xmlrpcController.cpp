@@ -44,6 +44,8 @@ int XmlrpcController::set_puerto(int puerto){
 
 bool XmlrpcController::enviar(const int caso){
   const char* metodo;
+  bool estado = false;
+  std::string direccion = "20:16:04:18:35:40"; // Dirección del dispositivo
   // cout << "Puerto: " << this->port << "\nDirección: " << this->host << endl;
   switch (caso)
   {
@@ -51,6 +53,9 @@ bool XmlrpcController::enviar(const int caso){
   case 1:
     // metodo = "activar_bluetooth";
     metodo = "bluetooth";
+
+    // parametro[0] = estado;
+    // parametro[1] = direccion;
     break;
   case 2:
     // metodo = "desactivar_bluetooth";
@@ -59,10 +64,14 @@ bool XmlrpcController::enviar(const int caso){
   case 3:
     // metodo = "activar_motor";
     metodo = "motores";
+    estado = true;
+    this->parametro[0] = estado;
     break;
   case 4:
     // metodo = "desactivar_motor";
     metodo = "motores";
+    estado = false;
+    this->parametro[0] = estado;
     break;
   case 5:
     metodo = "avanzar";
@@ -72,6 +81,7 @@ bool XmlrpcController::enviar(const int caso){
     break;
   case 7:
     metodo = "derecha";
+    // this->parametro[0] = 3;
     break;
   case 8:
     metodo = "izquierda";
@@ -91,16 +101,21 @@ bool XmlrpcController::enviar(const int caso){
     if (exito){
       //  La llamada al método fue exitosa.
       consola.imprimirEnConsola("exito en la llamda");
+
+      std::string resultado_str = resultado.toXml();
+      consola.imprimirEnConsola("El resultado es: " + resultado_str);
+
       return resultado;
     } else {
       //  La llamada al método ha fallado
       return false;
     }
   }
-  catch(XmlRpc::XmlRpcException e){
-    cout << "Error numero " << e.getCode() << ", " << e.getMessage() << "\r\n";
-    consola.imprimirEnConsola("Re loco no funca");
-    return false;
+  catch (XmlRpc::XmlRpcException e) {
+  std::cerr << "Error en la llamada a " << metodo << ": " << e.getMessage() << std::endl;
+  std::cerr << "Código de error: " << e.getCode() << std::endl;
+  std::cerr << "Mensaje de error: " << e.getMessage() << std::endl;
+  return false;
     // std::cerr << e.what() << '\n';
   }
 }
@@ -146,9 +161,10 @@ bool XmlrpcController::solicitarArchivoRegistro(){
   try{
     const char* metodo;
     metodo = "solicitarXml";
-    bool exito = this->execute(metodo, this->data, this->resultado);  
+    bool exito = this->execute(metodo, parametro, resultado);  
     if (exito){
       consola.imprimirEnConsola("exito en la llamda XML");
+      consola.imprimirEnConsola(resultado);
       return true;
     }
     else{
