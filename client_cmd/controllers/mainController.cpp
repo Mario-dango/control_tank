@@ -128,8 +128,8 @@ void MainController::run() {
                 resultado = controladorXmlRpc.solicitarArchivoRegistro();
                 if (resultado){
                     objetoConsola.imprimirEnConsola("\nSe envió exitosamente el comando.\n");
-                    string contenido = controladorXmlRpc.resultado.toXml();
-                    bool exito = controladorArchivo->guardarArchivoXml("control_tank/client_cmd/resourse/lib/archivos/log.xml", contenido);
+                    // string contenido = controladorXmlRpc.resultado.toXml();
+                    bool exito = controladorArchivo->guardarArchivoXml("/home/bawy/Plantillas/git_poo/control_tank/client_cmd/archivos/log.xml", controladorXmlRpc.resultado);
                     if (exito) {
                         objetoConsola.imprimirEnConsola("\nSe guardo el archivo de registro exitosamente.\n");
                     } else {

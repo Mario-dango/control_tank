@@ -54,19 +54,24 @@ bool ArchivoModel::leerArchivoXml(const char* nombreArchivo){
 }
 
 bool ArchivoModel::guardarArchivoXml(const char* nombreArchivo, const std::string& contenido) {
-    pugi::xml_document doc;
+ pugi::xml_document doc;
 
-    // Parseamos el contenido XML recibido
-    if (!doc.load_string(contenido.c_str())) {
-        std::cout << "Error al parsear el archivo XML." << std::endl;
-        return false;
-    }
+// Verificar que el contenido XML recibido sea válido
+pugi::xml_parse_result result = doc.load_string(contenido.c_str());
+if (!result) {
+    std::cerr << "Error al parsear el archivo XML: " << result.description() << std::endl;
+    return false;
+}
 
-    // Guardamos el contenido en un archivo
+// Guardar el contenido en un archivo
+try {
     if (!doc.save_file(nombreArchivo)) {
-        std::cout << "Error al guardar el archivo XML." << std::endl;
-        return false;
+        throw std::runtime_error("Error al guardar el archivo XML.");
     }
+} catch (const std::exception& e) {
+    std::cerr << "Error al guardar el archivo XML: " << e.what() << std::endl;
+    return false;
+}
 
-    return true;
+return true;
 }

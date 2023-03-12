@@ -147,4 +147,39 @@
     </acciones>
     <desconectado>00:23:49</desconectado>
   </log>
+  <log date="12/03/2023 - 03:17:17">
+    <usuario>Local</usuario>
+    <conectado>03:17:17</conectado>
+    <acciones>
+      <accion type="motores" action="on">Activar los motores</accion>
+      <accion type="movimiento" duration="0.607">Girar a la izquierda</accion>
+      <accion type="movimiento" duration="0.895">Detener el robot</accion>
+      <accion type="movimiento" duration="3.076">Girar a la derecha</accion>
+      <accion type="movimiento" duration="1.122">Movimiento hacia adelante</accion>
+      <accion type="movimiento" duration="0.907">Movimiento hacia atras</accion>
+      <accion type="movimiento" duration="1.250">Detener el robot</accion>
+      <accion type="movimiento" duration="0.604">Movimiento hacia atras</accion>
+      <accion type="movimiento" duration="1.032">Girar a la izquierda</accion>
+      <accion type="movimiento" duration="1.502">Movimiento hacia adelante</accion>
+      <accion type="movimiento" duration="1.662">Girar a la derecha</accion>
+      <accion type="movimiento" duration="1.456">Girar a la derecha</accion>
+      <accion type="movimiento" duration="2.266">Girar a la izquierda</accion>
+      <accion type="movimiento" duration="1.588">Movimiento hacia adelante</accion>
+      <accion type="movimiento" duration="0.589">Girar a la izquierda</accion>
+      <accion type="movimiento" duration="1.295">Girar a la derecha</accion>
+      <accion type="movimiento" duration="1.214">Detener el robot</accion>
+      <accion type="movimiento" duration="0.950">Movimiento hacia adelante</accion>
+      <accion type="movimiento" duration="3.040">Girar a la izquierda</accion>
+      <accion type="movimiento" duration="0.882">Movimiento hacia adelante</accion>
+      <accion type="movimiento" duration="1.107">Movimiento hacia adelante</accion>
+      <accion type="movimiento" duration="1.686">Girar a la derecha</accion>
+      <accion type="movimiento" duration="0.587">Movimiento hacia adelante</accion>
+      <accion type="movimiento" duration="0.935">Girar a la derecha</accion>
+      <accion type="movimiento" duration="1.403">Movimiento hacia atras</accion>
+      <accion type="movimiento" duration="1.724">Girar a la derecha</accion>
+      <accion type="movimiento" duration="1.32">Movimiento hacia adelante</accion>
+      <accion type="movimiento" duration="1.497">Girar a la derecha</accion>
+      <accion type="motores" action="off">Desctivar los motores</accion>
+    </acciones>
+  </log>
 </logs>
